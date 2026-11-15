@@ -2,11 +2,5 @@
   "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
-  "crons": [
-    {
-      "path": "/api/cron/publish",
-      "schedule": "0 * * * *"
-    }
-  ],
   "framework": "nextjs"
 }
