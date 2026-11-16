@@ -4,43 +4,49 @@ import { motion } from 'framer-motion';
 
 export default function Dashboard() {
   const [topic, setTopic] = useState('');
-  const [variations, setVariations] = useState<any[]>([]);
 
   return (
-    <div className="min-h-screen bg-[#000] text-white p-12 overflow-hidden selection:bg-pm-accent">
-      {/* Background Ambience */}
-      <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-pm-blue/20 via-black to-black -z-0" />
+    <div className="min-h-screen bg-[#000] text-white p-12">
+      <div className="grid grid-cols-12 gap-6 max-w-7xl mx-auto">
+        
+        {/* Header - Span Full */}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="col-span-12 mb-8">
+            <h1 className="text-6xl font-bold tracking-tighter">Marketing Control</h1>
+        </motion.div>
 
-      <motion.div 
-        initial={{ opacity: 0, y: 40 }} 
-        animate={{ opacity: 1, y: 0 }} 
-        className="relative z-10 max-w-4xl mx-auto"
-      >
-        <div className="flex justify-between items-end mb-12">
-            <div>
-                <h2 className="text-sm font-medium text-pm-accent uppercase tracking-[0.2em] mb-2">Pacific Mall Mandaue</h2>
-                <h1 className="text-7xl font-light tracking-tighter">Pacific Mall Marketing System</h1>
-            </div>
-            <div className="h-12 w-12 rounded-full border border-white/20 flex items-center justify-center animate-pulse">
-                <div className="h-3 w-3 rounded-full bg-pm-accent" />
-            </div>
-        </div>
-
-        {/* The "Liquid" Input Field */}
-        <div className="group relative bg-white/[0.03] border border-white/10 rounded-[40px] p-8 hover:border-pm-accent/50 transition-all duration-500">
+        {/* Studio Card - Bento Box 1 */}
+        <div className="col-span-12 lg:col-span-8 apple-card p-8 border border-white/10 bg-[#0a0a0a]">
+            <label className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-4 block">New Content Pipeline</label>
             <textarea 
-                className="w-full bg-transparent p-4 outline-none text-3xl font-light placeholder:text-white/20"
-                placeholder="What's the next big event?"
+                className="w-full bg-transparent outline-none text-2xl font-light placeholder:text-gray-700 min-h-[150px]"
+                placeholder="Describe your next mall event..."
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
             />
-            <div className="flex justify-end mt-4">
-                <button onClick={generateContent} className="btn-futuristic">
-                    {loading ? 'CALCULATING...' : 'GENERATE'}
-                </button>
+            <button className="btn-futuristic w-full mt-4">LAUNCH GENERATION</button>
+        </div>
+
+        {/* Engagement Box - Bento Box 2 */}
+        <div className="col-span-12 lg:col-span-4 apple-card p-8 border border-white/10 bg-[#0a0a0a] flex flex-col justify-between">
+            <h3 className="text-xl font-semibold">Active Engagements</h3>
+            <div className="text-5xl font-bold text-pm-accent my-4">12</div>
+            <p className="text-gray-400 text-sm">Comments pending human approval</p>
+        </div>
+
+        {/* Lead CRM Box - Bento Box 3 */}
+        <div className="col-span-12 lg:col-span-6 apple-card p-8 border border-white/10 bg-[#0a0a0a]">
+            <h3 className="text-xl font-semibold mb-6">Lead Capture Pipeline</h3>
+            <div className="flex justify-between items-center py-4 border-b border-white/5">
+                <span>Maria Santos</span>
+                <span className="text-pm-accent font-mono text-sm">LEAD_ACTIVE</span>
+            </div>
+            <div className="flex justify-between items-center py-4 border-b border-white/5">
+                <span>Juan Dela Cruz</span>
+                <span className="text-pm-accent font-mono text-sm">LEAD_ACTIVE</span>
             </div>
         </div>
-      </motion.div>
+
+      </div>
     </div>
   );
 }
