@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { MessageSquare, Sparkles, Send, Bot } from 'lucide-react';
+import { MessageSquare, Sparkles, Send, MessageCircleReply } from 'lucide-react';
 
 export default function EngagementDashboard() {
   const [comments, setComments] = useState<any[]>([]);
@@ -58,7 +58,7 @@ export default function EngagementDashboard() {
           Engagement <span className="font-serif italic font-normal text-[#321c65]">Hub</span>
         </h1>
         <p className="text-gray-500 text-sm mt-2">
-          Review incoming Facebook & social customer inquiries and deploy AI-suggested responses.
+          Review incoming Facebook & social customer inquiries and deploy instant suggested responses.
         </p>
       </header>
 
@@ -100,8 +100,8 @@ export default function EngagementDashboard() {
               disabled={loading[item.id]}
               className="w-full ad-btn-purple !py-3 !text-xs sm:!text-sm"
             >
-              <Bot className="w-4 h-4 text-pink-300" />
-              {loading[item.id] ? "ANALYZING COMMENT..." : "GENERATE INTELLIGENT REPLY"}
+              <MessageCircleReply className="w-4 h-4 text-pink-300" />
+              {loading[item.id] ? "PREPARING RESPONSE..." : "GENERATE SUGGESTED REPLY"}
             </button>
 
             {/* Suggested Response Preview */}

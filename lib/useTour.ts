@@ -34,7 +34,7 @@ export const startTour = () => {
     },
     steps: [
       { element: '#content-studio', popover: { title: 'Content Studio', description: 'Centralized content studio. Generate trend-compliant assets tailored to your brand voice.' } },
-      { element: '#engagement-hub', popover: { title: 'Engagement Hub', description: 'Real-time engagement hub. AI-assisted response workflows for streamlined customer interactions.' } },
+      { element: '#engagement-hub', popover: { title: 'Engagement Hub', description: 'Real-time engagement hub. Smart response workflows for streamlined customer interactions.' } },
       { element: '#lead-crm', popover: { title: 'Lead CRM', description: 'Integrated lead management. Automatically capture and track customer outreach data.' } }
     ]
   });

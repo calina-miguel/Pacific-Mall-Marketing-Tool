@@ -71,7 +71,7 @@ export default function Dashboard() {
                 </div>
               </div>
               <span className="text-xs text-[#b60090] font-semibold bg-pink-50 border border-pink-100 px-3 py-1 rounded-full">
-                AI Powered
+                Instant Engine
               </span>
             </div>
 
@@ -91,7 +91,7 @@ export default function Dashboard() {
               className="ad-btn-purple w-full sm:w-auto text-xs sm:text-sm !py-3 !px-6 disabled:opacity-50"
             >
               {loading ? (
-                <>Calculating AI Strategy...</>
+                <>Preparing Campaign Strategy...</>
               ) : (
                 <>
                   <Zap className="w-4 h-4 text-pink-300" />
