@@ -3,11 +3,14 @@ import './globals.css';
 import Link from 'next/link';
 import { startTour } from '@/lib/useTour';
 
+import CyberFooter from './components/CyberFooter';
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className="flex h-screen bg-pm-bg text-pm-dark">
-        <nav className="w-64 bg-pm-blue text-white p-6 flex flex-col">
+        <nav className="w-64 bg-pm-blue text-white p-6 flex flex-col z-40">
+          {/* ... nav content ... */}
           <h1 className="text-xl font-bold mb-8">
              <img src="https://graph.facebook.com/PMMandaueofficial/picture?type=large" alt="Pacific Mall Mandaue" className="w-16 h-16 rounded-full border-2 border-white mb-4" />
              Pacific Mall Admin
@@ -24,6 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           >
             Start Guided Tour 🎧
           </button>
+          <CyberFooter />
         </nav>
         <main className="flex-1 overflow-y-auto">{children}</main>
       </body>

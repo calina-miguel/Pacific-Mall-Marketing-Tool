@@ -5,60 +5,40 @@ import { motion } from 'framer-motion';
 export default function Dashboard() {
   const [topic, setTopic] = useState('');
   const [variations, setVariations] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  const generateContent = async () => {
-    setLoading(true);
-    const res = await fetch('/api/generate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ topic, context: 'Pacific Mall Mandaue' }),
-    });
-    const data = await res.json();
-    setVariations(data.variations || []);
-    setLoading(false);
-  };
 
   return (
-    <div className="p-8 min-h-screen bg-[#050505] text-white">
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-4xl mx-auto">
-        <header className="mb-12">
-          <h1 className="text-5xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-pm-accent to-white mb-2">
-            PACIFIC MALL CORE
-          </h1>
-          <p className="text-gray-400 font-mono tracking-widest uppercase text-sm">Marketing Automation Engine v1.0</p>
-        </header>
-        
-        <div className="apple-card p-8 mb-10 border-pm-accent/40">
-          <textarea 
-            className="w-full bg-transparent p-4 outline-none text-2xl font-light text-white placeholder:text-gray-600"
-            placeholder="What's the next big event?"
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
-          />
-          <button 
-            onClick={generateContent}
-            className="mt-6 w-full py-4 bg-gradient-to-r from-pm-accent to-amber-500 rounded-2xl text-pm-dark font-bold text-lg hover:shadow-[0_0_20px_rgba(255,204,0,0.3)] transition-all"
-          >
-            {loading ? 'CALCULATING...' : 'EXECUTE GENERATION'}
-          </button>
+    <div className="min-h-screen bg-[#000] text-white p-12 overflow-hidden selection:bg-pm-accent">
+      {/* Background Ambience */}
+      <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-pm-blue/20 via-black to-black -z-0" />
+
+      <motion.div 
+        initial={{ opacity: 0, y: 40 }} 
+        animate={{ opacity: 1, y: 0 }} 
+        className="relative z-10 max-w-4xl mx-auto"
+      >
+        <div className="flex justify-between items-end mb-12">
+            <div>
+                <h2 className="text-sm font-medium text-pm-accent uppercase tracking-[0.2em] mb-2">Pacific Mall Mandaue</h2>
+                <h1 className="text-7xl font-light tracking-tighter">Content Studio</h1>
+            </div>
+            <div className="h-12 w-12 rounded-full border border-white/20 flex items-center justify-center animate-pulse">
+                <div className="h-3 w-3 rounded-full bg-pm-accent" />
+            </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {variations.map((v, i) => (
-            <motion.div 
-              key={i} 
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: i * 0.2 }}
-              className="apple-card bg-pm-dark/80 border-white/10 p-6 hover:border-pm-accent/50 transition-colors"
-            >
-              <p className="text-gray-200 text-sm mb-6 line-clamp-6">{v.content}</p>
-              <button className="w-full border border-pm-accent text-pm-accent py-2 rounded-full text-xs font-bold uppercase hover:bg-pm-accent hover:text-pm-dark transition">
-                Deploy Variation
-              </button>
-            </motion.div>
-          ))}
+        {/* The "Liquid" Input Field */}
+        <div className="group relative bg-white/[0.03] border border-white/10 rounded-[40px] p-8 hover:border-pm-accent/50 transition-all duration-500">
+            <textarea 
+                className="w-full bg-transparent p-4 outline-none text-3xl font-light placeholder:text-white/20"
+                placeholder="What's the next big event?"
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+            />
+            <div className="flex justify-end mt-4">
+                <button className="bg-white text-black px-8 py-3 rounded-full font-semibold hover:bg-pm-accent transition-all hover:scale-105 active:scale-95">
+                    GENERATE
+                </button>
+            </div>
         </div>
       </motion.div>
     </div>
