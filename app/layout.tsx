@@ -12,7 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <nav className="w-20 lg:w-72 border-r border-white/10 p-6 flex flex-col z-40 bg-[#050505]/50 backdrop-blur-3xl">
           <div className="flex items-center gap-3 mb-12">
             <img src="https://graph.facebook.com/PMMandaueofficial/picture?type=large" alt="Logo" className="w-10 h-10 rounded-xl" />
-            <span className="hidden lg:block font-bold tracking-tight text-lg">PMM CORE</span>
+            <span className="hidden lg:block font-bold tracking-tight text-lg leading-tight">Pacific Mall Marketing System</span>
           </div>
           <ul className="space-y-6 flex-grow">
             <li id="content-studio"><Link href="/dashboard" className="flex items-center gap-4 text-gray-400 hover:text-pm-accent transition"><span className="text-xl">✨</span><span className="hidden lg:block">Content Studio</span></Link></li>
