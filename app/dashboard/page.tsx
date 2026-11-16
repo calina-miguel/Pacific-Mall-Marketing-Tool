@@ -20,12 +20,16 @@ export default function Dashboard() {
         body: JSON.stringify({ topic, context: 'Pacific Mall Mandaue' }),
       });
       const data = await res.json();
-      setGeneratedResult(data);
+      if (data && (data.caption || (data.variations && data.variations.length > 0))) {
+        setGeneratedResult(data);
+      } else {
+        throw new Error('Fallback needed');
+      }
     } catch (err) {
       console.error(err);
       setGeneratedResult({
-        caption: `🎉 Big things are happening at Pacific Mall! Discover special deals, weekend dining, and family fun today. #PacificMall #MandaueShopping`,
-        headline: 'Upcoming Mall Highlight',
+        caption: `🛍️ Don't miss the latest updates at Pacific Mall Mandaue!\n\n${topic}\n\nVisit us today and enjoy exclusive shopping, great food, and fun with the whole family!\n\n#PacificMall #MandaueShopping #CebuDeals`,
+        headline: topic || 'Upcoming Mall Highlight',
       });
     } finally {
       setLoading(false);
