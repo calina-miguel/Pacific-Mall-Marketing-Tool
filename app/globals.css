@@ -174,3 +174,87 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #321c65;
 }
+
+/* Driver.js popover styled with AdScale & Pacific Mall brand palette */
+.driver-popover {
+  background-color: #ffffff !important;
+  color: #1a1429 !important;
+  border: 1px solid rgba(50, 28, 101, 0.15) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 16px 40px -4px rgba(50, 28, 101, 0.2), 0 4px 12px rgba(0, 0, 0, 0.04) !important;
+  padding: 20px !important;
+  max-width: 380px !important;
+  font-family: var(--font-inter, sans-serif) !important;
+}
+
+.driver-popover-title {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #321c65 !important;
+  margin-bottom: 8px !important;
+  letter-spacing: -0.01em !important;
+}
+
+.driver-popover-description {
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+  color: #4a4556 !important;
+  margin-bottom: 12px !important;
+}
+
+.driver-popover-footer {
+  margin-top: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  border-top: 1px solid rgba(50, 28, 101, 0.08) !important;
+  padding-top: 12px !important;
+}
+
+.driver-popover-next-btn {
+  background-color: #321c65 !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 8px 16px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-shadow: none !important;
+  box-shadow: 0 4px 12px rgba(50, 28, 101, 0.25) !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+}
+
+.driver-popover-next-btn:hover {
+  background-color: #b60090 !important;
+  transform: translateY(-1px) !important;
+}
+
+.driver-popover-prev-btn {
+  background-color: #f7f6fa !important;
+  color: #321c65 !important;
+  border: 1px solid rgba(50, 28, 101, 0.15) !important;
+  border-radius: 12px !important;
+  padding: 7px 14px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-shadow: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.driver-popover-prev-btn:hover {
+  background-color: #eeeaf7 !important;
+}
+
+.driver-popover-close-btn {
+  color: #8b8599 !important;
+  font-size: 18px !important;
+}
+
+.driver-popover-progress-text {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: #b60090 !important;
+}
+

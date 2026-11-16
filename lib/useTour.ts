@@ -1,4 +1,4 @@
-import { driver } from "driver.js";
+import { driver, DriveStep } from "driver.js";
 import "driver.js/dist/driver.css";
 
 // Tour audio tracks rendered directly from Kokoro TTS (Voice: af_heart)
@@ -9,31 +9,70 @@ const KOKORO_AUDIO: Record<string, string> = {
   crm: "/audio/tour_crm.mp3",
 };
 
+// Cached HTMLAudioElement instances for instant zero-latency playback
+const audioElements: Partial<Record<string, HTMLAudioElement>> = {};
 let currentAudio: HTMLAudioElement | null = null;
 
-function playKokoroAudio(key: keyof typeof KOKORO_AUDIO) {
-  if (typeof window === "undefined") return;
-
-  // Stop any currently playing audio track
-  if (currentAudio) {
-    currentAudio.pause();
-    currentAudio.currentTime = 0;
-  }
-
+function getAudio(key: string): HTMLAudioElement | null {
+  if (typeof window === "undefined") return null;
   const src = KOKORO_AUDIO[key];
-  if (!src) return;
+  if (!src) return null;
 
-  const audio = new Audio(src);
-  currentAudio = audio;
-  audio.play().catch((err) => {
-    console.warn("Audio autoplay prevented by browser policy:", err);
+  if (!audioElements[key]) {
+    const audio = new Audio(src);
+    audio.preload = "auto";
+    audioElements[key] = audio;
+  }
+  return audioElements[key]!;
+}
+
+// Preload all audio tracks in background
+export function preloadTourAudio() {
+  if (typeof window === "undefined") return;
+  Object.keys(KOKORO_AUDIO).forEach((key) => {
+    getAudio(key);
   });
 }
 
-function stopKokoroAudio() {
+export function playKokoroAudio(key: string) {
+  if (typeof window === "undefined") return;
+
+  // Immediately stop any currently playing voiceover track
   if (currentAudio) {
-    currentAudio.pause();
-    currentAudio.currentTime = 0;
+    try {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+    } catch {
+      // Ignore pause errors
+    }
+    currentAudio = null;
+  }
+
+  const audio = getAudio(key);
+  if (!audio) return;
+
+  currentAudio = audio;
+  try {
+    audio.currentTime = 0;
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise.catch((err) => {
+        console.warn(`[Guided Tour] Autoplay prevented for track "${key}":`, err);
+      });
+    }
+  } catch (err) {
+    console.warn(`[Guided Tour] Error playing audio "${key}":`, err);
+  }
+}
+
+export function stopKokoroAudio() {
+  if (currentAudio) {
+    try {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+    } catch {
+      // Ignore pause errors
+    }
     currentAudio = null;
   }
 }
@@ -41,59 +80,73 @@ function stopKokoroAudio() {
 export const startTour = () => {
   if (typeof window === "undefined") return;
 
+  // Preload tracks in case they haven't started yet
+  preloadTourAudio();
   stopKokoroAudio();
+
+  const steps: DriveStep[] = [
+    {
+      element: undefined,
+      popover: {
+        title: "✨ Welcome to Pacific Mall Marketing System",
+        description: "Welcome to your marketing workspace. Let us take you on a quick guided walkthrough of your tools.",
+        nextBtnText: "Start Tour &rarr;",
+      },
+      onHighlighted: () => {
+        playKokoroAudio("intro");
+      },
+    },
+    {
+      element: "#content-studio",
+      popover: {
+        title: "🎨 Content Studio",
+        description: "Generate retail campaign copy, headlines, and trending hashtags tailored for Pacific Mall.",
+        nextBtnText: "Next: Engagement &rarr;",
+        prevBtnText: "&larr; Back",
+      },
+      onHighlighted: () => {
+        playKokoroAudio("studio");
+      },
+    },
+    {
+      element: "#engagement-hub",
+      popover: {
+        title: "💬 Engagement Hub",
+        description: "Track incoming customer comments from social channels and prepare instant, courteous replies.",
+        nextBtnText: "Next: Lead CRM &rarr;",
+        prevBtnText: "&larr; Back",
+      },
+      onHighlighted: () => {
+        playKokoroAudio("engagement");
+      },
+    },
+    {
+      element: "#lead-crm",
+      popover: {
+        title: "👥 Lead CRM",
+        description: "Manage customer contacts, track inquiry types, and dispatch direct promotional outreach.",
+        doneBtnText: "Finish Tour ✓",
+        prevBtnText: "&larr; Back",
+      },
+      onHighlighted: () => {
+        playKokoroAudio("crm");
+      },
+    },
+  ];
 
   const driverObj = driver({
     showProgress: true,
+    animate: true,
+    allowClose: true,
+    overlayColor: "rgba(26, 20, 41, 0.7)",
+    stagePadding: 6,
+    stageRadius: 16,
+    steps,
     onDestroyStarted: () => {
       stopKokoroAudio();
       driverObj.destroy();
     },
-    onHighlightStarted: (element) => {
-      const path = window.location.pathname;
-      if (element?.id === "content-studio" && path !== "/dashboard") {
-        window.location.href = "/dashboard";
-      } else if (element?.id === "engagement-hub" && path !== "/dashboard/engagement") {
-        window.location.href = "/dashboard/engagement";
-      } else if (element?.id === "lead-crm" && path !== "/dashboard/leads") {
-        window.location.href = "/dashboard/leads";
-      }
-    },
-    onHighlighted: (element) => {
-      if (element?.id === "content-studio") {
-        playKokoroAudio("studio");
-      } else if (element?.id === "engagement-hub") {
-        playKokoroAudio("engagement");
-      } else if (element?.id === "lead-crm") {
-        playKokoroAudio("crm");
-      }
-    },
-    steps: [
-      {
-        element: "#content-studio",
-        popover: {
-          title: "Content Studio",
-          description: "Welcome to Content Studio. Here you can generate retail campaign copy, headlines, and trending hashtags tailored for Pacific Mall."
-        }
-      },
-      {
-        element: "#engagement-hub",
-        popover: {
-          title: "Engagement Hub",
-          description: "This is your Engagement Hub. It tracks incoming customer comments from social channels and prepares instant, courteous replies."
-        }
-      },
-      {
-        element: "#lead-crm",
-        popover: {
-          title: "Lead CRM",
-          description: "Here in Lead CRM, you can manage customer contacts, track inquiry types, and dispatch direct promotional outreach."
-        }
-      }
-    ]
   });
 
-  // Play introductory VO from Kokoro TTS
-  playKokoroAudio("intro");
   driverObj.drive();
 };
