@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { MessageSquare, Sparkles, Send, MessageCircleReply } from 'lucide-react';
+import { Sparkles, Send, MessageCircleReply, Check } from 'lucide-react';
 
 export default function EngagementDashboard() {
   const [comments, setComments] = useState<any[]>([]);
   const [replies, setReplies] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState<Record<string, boolean>>({});
+  const [sentMap, setSentMap] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     fetch('/api/engagements')
@@ -49,47 +50,54 @@ export default function EngagementDashboard() {
     }
   };
 
+  const handleSendReply = (commentId: string) => {
+    setSentMap(prev => ({ ...prev, [commentId]: true }));
+    setTimeout(() => {
+      setSentMap(prev => ({ ...prev, [commentId]: false }));
+    }, 3000);
+  };
+
   return (
-    <div className="p-6 sm:p-10 max-w-5xl mx-auto">
+    <div className="p-4 sm:p-6 lg:p-10 max-w-5xl mx-auto">
       {/* Header */}
-      <header className="mb-10">
-        <div className="ad-badge mb-3">Social Command</div>
-        <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#1a1429]">
+      <header className="mb-6 sm:mb-10">
+        <div className="ad-badge mb-2 sm:mb-3">Social Command</div>
+        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#1a1429]">
           Engagement <span className="font-serif italic font-normal text-[#321c65]">Hub</span>
         </h1>
-        <p className="text-gray-500 text-sm mt-2">
+        <p className="text-gray-500 text-xs sm:text-sm mt-1 sm:mt-2">
           Review incoming Facebook & social customer inquiries and deploy instant suggested responses.
         </p>
       </header>
 
       {/* Comment List styled with AdScale cards */}
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         {comments.map((item: any) => (
           <motion.div 
             key={item.id} 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="adscale-card p-6 sm:p-8 hover:border-[#321c65]/30 transition-all"
+            className="adscale-card p-4 sm:p-6 lg:p-8 hover:border-[#321c65]/30 transition-all"
           >
             {/* Top user profile row */}
-            <div className="flex items-start justify-between gap-4 mb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-purple-50 text-[#321c65] border border-[#321c65]/15 flex items-center justify-center font-bold text-base">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-purple-50 text-[#321c65] border border-[#321c65]/15 flex items-center justify-center font-bold text-sm sm:text-base shrink-0">
                   {item.from?.name?.charAt(0) || 'U'}
                 </div>
                 <div>
-                  <p className="font-bold text-base text-[#1a1429]">{item.from?.name || "Customer"}</p>
-                  <p className="text-[11px] text-gray-400 font-semibold uppercase tracking-wider">Incoming Facebook Comment</p>
+                  <p className="font-bold text-sm sm:text-base text-[#1a1429]">{item.from?.name || "Customer"}</p>
+                  <p className="text-[10px] sm:text-[11px] text-gray-400 font-semibold uppercase tracking-wider">Incoming Facebook Comment</p>
                 </div>
               </div>
-              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-pink-50 text-[#b60090] border border-pink-100">
+              <span className="self-start sm:self-auto text-[10px] sm:text-xs font-semibold px-2.5 sm:px-3 py-1 rounded-full bg-pink-50 text-[#b60090] border border-pink-100">
                 Action Required
               </span>
             </div>
             
             {/* Message Bubble */}
-            <div className="bg-[#f7f6fa] p-5 rounded-2xl border border-gray-100 mb-6">
-              <p className="text-base text-gray-800 font-normal leading-relaxed">
+            <div className="bg-[#f7f6fa] p-3.5 sm:p-5 rounded-2xl border border-gray-100 mb-4 sm:mb-6">
+              <p className="text-sm sm:text-base text-gray-800 font-normal leading-relaxed">
                 "{item.message}"
               </p>
             </div>
@@ -98,40 +106,47 @@ export default function EngagementDashboard() {
             <button 
               onClick={() => suggestReply(item.id, item.message)}
               disabled={loading[item.id]}
-              className="w-full ad-btn-purple !py-3 !text-xs sm:!text-sm"
+              className="ad-btn-purple w-full sm:w-auto text-xs sm:text-sm !py-2.5 !px-5 disabled:opacity-50 flex items-center justify-center gap-2"
             >
-              <MessageCircleReply className="w-4 h-4 text-pink-300" />
-              {loading[item.id] ? "PREPARING RESPONSE..." : "GENERATE SUGGESTED REPLY"}
+              <MessageCircleReply className="w-3.5 h-3.5" />
+              <span>{loading[item.id] ? "PREPARING RESPONSE..." : "GENERATE SUGGESTED REPLY"}</span>
             </button>
 
-            {/* Suggested Response Preview */}
+            {/* Generated Reply Drawer */}
             {replies[item.id] && (
               <motion.div 
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                className="mt-6 p-6 bg-[#f7f6fa] border border-[#321c65]/20 rounded-2xl"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-100"
               >
-                <div className="flex items-center gap-1.5 text-xs font-bold text-[#b60090] uppercase tracking-wider mb-2">
-                  <Sparkles className="w-3.5 h-3.5" /> Suggested Response
+                <div className="flex items-center gap-2 mb-2">
+                  <Sparkles className="w-3.5 h-3.5 text-[#b60090]" />
+                  <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#b60090]">
+                    Suggested Response
+                  </span>
                 </div>
-                <p className="text-gray-800 text-sm sm:text-base leading-relaxed mb-6 font-normal">
-                  {replies[item.id]}
-                </p>
-                <div className="flex flex-col sm:flex-row items-center gap-3">
-                  <button
-                    onClick={() => alert('Reply approved and dispatched to customer!')}
-                    className="w-full sm:w-auto ad-btn-magenta !py-2.5 !px-6 !text-xs font-bold"
+                <textarea 
+                  className="w-full bg-[#f7f6fa] border border-[#321c65]/10 rounded-2xl p-3 sm:p-4 text-xs sm:text-sm font-light text-gray-800 outline-none focus:ring-2 focus:ring-[#321c65] focus:border-transparent transition resize-none mb-3"
+                  rows={3}
+                  value={replies[item.id]}
+                  onChange={(e) => setReplies({ ...replies, [item.id]: e.target.value })}
+                />
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2">
+                  <button 
+                    onClick={() => handleSendReply(item.id)}
+                    className="ad-btn-magenta w-full sm:w-auto text-xs sm:text-sm !py-2.5 !px-5 flex items-center justify-center gap-2"
                   >
-                    <Send className="w-3.5 h-3.5" /> APPROVE & SEND
-                  </button>
-                  <button
-                    onClick={() => {
-                      navigator.clipboard.writeText(replies[item.id]);
-                      alert('Copied to clipboard');
-                    }}
-                    className="w-full sm:w-auto ad-btn-white !py-2.5 !px-4 !text-xs"
-                  >
-                    Copy Text
+                    {sentMap[item.id] ? (
+                      <>
+                        <Check className="w-3.5 h-3.5" />
+                        <span>Dispatched to Facebook!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-3.5 h-3.5" />
+                        <span>DEPLOY DIRECT RESPONSE</span>
+                      </>
+                    )}
                   </button>
                 </div>
               </motion.div>

@@ -77,6 +77,17 @@ export function stopKokoroAudio() {
   }
 }
 
+// Find the element currently visible on the screen (works seamlessly on mobile & desktop)
+function getVisibleTourTarget(tourKey: string, fallbackId: string): Element {
+  if (typeof document === "undefined") return null as unknown as Element;
+  const matches = Array.from(document.querySelectorAll(`[data-tour="${tourKey}"]`));
+  const visible = matches.find((el) => {
+    const rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0 && window.getComputedStyle(el).display !== "none";
+  });
+  return (visible || matches[0] || document.querySelector(fallbackId)) as Element;
+}
+
 export const startTour = () => {
   if (typeof window === "undefined") return;
 
@@ -97,7 +108,7 @@ export const startTour = () => {
       },
     },
     {
-      element: "#content-studio",
+      element: () => getVisibleTourTarget("studio", "#content-studio"),
       popover: {
         title: "🎨 Content Studio",
         description: "Generate retail campaign copy, headlines, and trending hashtags tailored for Pacific Mall.",
@@ -109,7 +120,7 @@ export const startTour = () => {
       },
     },
     {
-      element: "#engagement-hub",
+      element: () => getVisibleTourTarget("engagement", "#engagement-hub"),
       popover: {
         title: "💬 Engagement Hub",
         description: "Track incoming customer comments from social channels and prepare instant, courteous replies.",
@@ -121,7 +132,7 @@ export const startTour = () => {
       },
     },
     {
-      element: "#lead-crm",
+      element: () => getVisibleTourTarget("crm", "#lead-crm"),
       popover: {
         title: "👥 Lead CRM",
         description: "Manage customer contacts, track inquiry types, and dispatch direct promotional outreach.",

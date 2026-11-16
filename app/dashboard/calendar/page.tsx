@@ -44,30 +44,30 @@ export default function CalendarView() {
   }, []);
 
   return (
-    <div className="p-6 sm:p-10 max-w-5xl mx-auto">
+    <div className="p-4 sm:p-6 lg:p-10 max-w-5xl mx-auto">
       {/* Header */}
-      <header className="mb-8">
-        <div className="ad-badge mb-3">Campaign Scheduler</div>
-        <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#1a1429]">
+      <header className="mb-6 sm:mb-8">
+        <div className="ad-badge mb-2 sm:mb-3">Campaign Scheduler</div>
+        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#1a1429]">
           Content <span className="font-serif italic font-normal text-[#321c65]">Calendar</span>
         </h1>
-        <p className="text-gray-500 text-sm mt-2">
+        <p className="text-gray-500 text-xs sm:text-sm mt-1 sm:mt-2">
           Manage scheduled promotional posts, tenant events, and active social media campaigns.
         </p>
       </header>
 
       {/* Posts List in AdScale Cards */}
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         {posts.map((post) => {
           const isPending = post.status === 'pending';
           return (
             <div
               key={post.id}
-              className="adscale-card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-[#321c65]/30 transition"
+              className="adscale-card p-4 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 hover:border-[#321c65]/30 transition"
             >
               <div className="flex-1">
-                <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-gray-500 font-mono">
-                  <CalendarIcon className="w-3.5 h-3.5 text-[#b60090]" />
+                <div className="flex items-center gap-2 mb-2 text-[11px] sm:text-xs font-semibold text-gray-500 font-mono">
+                  <CalendarIcon className="w-3.5 h-3.5 text-[#b60090] shrink-0" />
                   <span>
                     {new Date(post.scheduled_for).toLocaleString([], {
                       dateStyle: 'medium',
@@ -75,14 +75,14 @@ export default function CalendarView() {
                     })}
                   </span>
                 </div>
-                <p className="text-base text-gray-800 font-normal leading-relaxed whitespace-pre-line">
+                <p className="text-sm sm:text-base text-gray-800 font-normal leading-relaxed whitespace-pre-line">
                   {post.content}
                 </p>
               </div>
 
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 self-start md:self-center shrink-0">
                 <span
-                  className={`px-3.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5 ${
+                  className={`px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold flex items-center gap-1.5 ${
                     isPending
                       ? 'bg-pink-50 text-[#b60090] border border-pink-200'
                       : 'bg-green-50 text-[#26aa00] border border-green-200'
