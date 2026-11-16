@@ -11,10 +11,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             Pacific Mall Admin
           </h1>
           <ul className="space-y-4">
-            <li><Link href="/dashboard" className="block hover:text-blue-400">Content Studio</Link></li>
-            <li><Link href="/dashboard/engagement" className="block hover:text-blue-400">Engagement Hub</Link></li>
-            <li><Link href="/dashboard/leads" className="block hover:text-blue-400">Lead CRM</Link></li>
-            <li><Link href="/dashboard/calendar" className="block hover:text-blue-400">Content Calendar</Link></li>
+            <li><Link href="/dashboard" className="block hover:text-pm-accent transition">Content Studio</Link></li>
+            <li><Link href="/dashboard/engagement" className="block hover:text-pm-accent transition">Engagement Hub</Link></li>
+            <li><Link href="/dashboard/leads" className="block hover:text-pm-accent transition">Lead CRM</Link></li>
+            <li><Link href="/dashboard/calendar" className="block hover:text-pm-accent transition">Content Calendar</Link></li>
           </ul>
         </nav>
         <main className="flex-1 overflow-y-auto">{children}</main>

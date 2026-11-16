@@ -2,10 +2,16 @@
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'pm-blue': '#003366',
+        'pm-accent': '#FFCC00',
+        'pm-bg': '#F4F7F9',
+        'pm-dark': '#1A1A1A',
+      },
+    },
   },
   plugins: [],
 }

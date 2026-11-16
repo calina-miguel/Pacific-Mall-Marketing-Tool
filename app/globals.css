@@ -4,4 +4,17 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  @apply bg-pm-bg text-pm-dark;
+}
+
+nav {
+  @apply bg-pm-blue text-white;
+}
+
+button.primary {
+  @apply bg-pm-blue text-white px-6 py-2 rounded-lg hover:bg-opacity-90;
+}
+
+button.accent {
+  @apply bg-pm-accent text-pm-dark px-6 py-2 rounded-lg font-bold hover:bg-opacity-90;
 }
