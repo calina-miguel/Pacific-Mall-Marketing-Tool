@@ -1,28 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --font-inter: 'Inter', sans-serif;
+  --font-serif: 'Source Serif 4', Georgia, serif;
+}
+
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: var(--font-inter);
     -webkit-font-smoothing: antialiased;
-    @apply bg-pm-bg text-pm-dark;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f7f7f7;
+    color: #1a1a1a;
   }
 }
 
-.apple-card {
-  @apply bg-black/40 backdrop-blur-2xl border border-pm-accent/30 shadow-[0_0_15px_rgba(255,204,0,0.1)] rounded-[24px];
+/* AdScale custom utilities */
+.ad-container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
-.pulse-border {
-  animation: pulse-border 3s infinite ease-in-out;
+.ad-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border: 1px solid rgba(26, 26, 26, 0.08);
+  border-radius: 9999px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a1a;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.02);
 }
 
-@keyframes pulse-border {
-  0%, 100% { border-color: rgba(255, 204, 0, 0.3); }
-  50% { border-color: rgba(255, 204, 0, 0.8); }
+.ad-badge-purple {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(133, 84, 255, 0.1);
+  border: 1px solid rgba(133, 84, 255, 0.2);
+  border-radius: 9999px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #8554ff;
 }
 
-button.primary {
-  @apply bg-pm-blue text-white px-6 py-2.5 rounded-full font-medium hover:bg-opacity-90 active:scale-95 transition-all;
+.ad-btn-purple {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #8554ff;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 24px;
+  border-radius: 12px;
+  box-shadow: rgba(255, 255, 255, 0.25) 0px 1px 1px 0px inset, rgba(133, 84, 255, 0.3) 0px 4px 14px 0px;
+  transition: all 0.2s ease;
+}
+
+.ad-btn-purple:hover {
+  background-color: #7442f5;
+  transform: translateY(-1px);
+}
+
+.ad-btn-white {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: 1px solid rgba(26, 26, 26, 0.08);
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.ad-btn-white:hover {
+  background-color: #f1f1f1;
+  border-color: rgba(26, 26, 26, 0.15);
+  transform: translateY(-1px);
+}
+
+.ad-btn-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 24px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.ad-btn-dark:hover {
+  background-color: #303030;
+  transform: translateY(-1px);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f7f7f7;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
 }
