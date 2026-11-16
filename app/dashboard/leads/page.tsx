@@ -28,7 +28,7 @@ export default function LeadsPage() {
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Lead CRM & Customer Contacts</h2>
       <p className="text-gray-600 mb-6">Automate your customer retention and direct outreach for Pacific Mall Mandaue.</p>
       
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      <div className="apple-card p-6 shadow-sm overflow-hidden">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-gray-800 text-white border-b">
@@ -51,7 +51,7 @@ export default function LeadsPage() {
                   {new Date(lead.last_contacted || lead.created_at || Date.now()).toLocaleDateString()}
                 </td>
                 <td className="p-4">
-                  <button className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs">
+          <button className="bg-pm-blue text-white px-4 py-2 rounded-full text-xs hover:opacity-90 active:scale-95 transition">
                     Send Promo DM
                   </button>
                 </td>

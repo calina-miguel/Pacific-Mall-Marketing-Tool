@@ -48,7 +48,7 @@ export default function CalendarView() {
 
       <div className="grid gap-4">
         {posts.map((post) => (
-          <div key={post.id} className="bg-white p-5 rounded-lg border shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div key={post.id} className="apple-card p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
                 <span className="font-bold text-gray-900">

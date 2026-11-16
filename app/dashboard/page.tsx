@@ -24,7 +24,7 @@ export default function Dashboard() {
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto">
         <h1 className="text-4xl font-extrabold text-pm-blue mb-8 tracking-tight">Content Studio</h1>
         
-        <div className="bg-white/70 backdrop-blur-xl border border-white/50 p-6 rounded-3xl shadow-lg mb-8">
+        <div className="apple-card p-6 mb-8">
           <textarea 
             className="w-full bg-transparent p-4 outline-none text-lg placeholder:text-gray-400"
             placeholder="What's happening at the mall?"
@@ -46,7 +46,7 @@ export default function Dashboard() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: i * 0.1 }}
-              className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100"
+              className="apple-card p-6"
             >
               <p className="text-gray-800 leading-relaxed mb-6">{v.content}</p>
               <div className="flex gap-3">
