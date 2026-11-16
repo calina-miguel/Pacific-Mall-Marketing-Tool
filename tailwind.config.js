@@ -11,6 +11,10 @@ module.exports = {
         'pm-bg': '#F4F7F9',
         'pm-dark': '#1A1A1A',
       },
+      fontSize: {
+        'display': ['2.5rem', { fontWeight: '700', letterSpacing: '-0.02em' }],
+        'headline': ['1.5rem', { fontWeight: '600', letterSpacing: '-0.01em' }],
+      }
     },
   },
   plugins: [],
