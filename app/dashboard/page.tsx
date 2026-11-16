@@ -19,7 +19,7 @@ export default function Dashboard() {
         <div className="flex justify-between items-end mb-12">
             <div>
                 <h2 className="text-sm font-medium text-pm-accent uppercase tracking-[0.2em] mb-2">Pacific Mall Mandaue</h2>
-                <h1 className="text-7xl font-light tracking-tighter">Content Studio</h1>
+                <h1 className="text-7xl font-light tracking-tighter">Pacific Mall Marketing System</h1>
             </div>
             <div className="h-12 w-12 rounded-full border border-white/20 flex items-center justify-center animate-pulse">
                 <div className="h-3 w-3 rounded-full bg-pm-accent" />
