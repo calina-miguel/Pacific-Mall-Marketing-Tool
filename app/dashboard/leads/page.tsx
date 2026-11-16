@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Users, Mail, Phone, Calendar, ArrowRight, UserCheck } from 'lucide-react';
+import { Users } from 'lucide-react';
 
 const DEMO_LEADS = [
   { id: '1', name: 'Maria Santos', interaction_type: 'comment_replied', last_contacted: new Date().toISOString() },
@@ -30,8 +30,8 @@ export default function LeadsPage() {
       {/* Header */}
       <header className="mb-8">
         <div className="ad-badge mb-3">Customer Intelligence</div>
-        <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#1a1a1a]">
-          Lead CRM & <span className="font-serif italic font-normal text-[#8554ff]">Contacts</span>
+        <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#1a1429]">
+          Lead CRM & <span className="font-serif italic font-normal text-[#321c65]">Contacts</span>
         </h1>
         <p className="text-gray-500 text-sm mt-2">
           Automate customer retention, promo invitations, and direct outreach for Pacific Mall Mandaue.
@@ -42,12 +42,12 @@ export default function LeadsPage() {
       <div className="adscale-card overflow-hidden">
         <div className="p-6 border-b border-gray-100 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
-              <Users className="w-4 h-4" />
+            <span className="w-8 h-8 rounded-xl bg-purple-50 text-[#321c65] flex items-center justify-center font-bold">
+              <Users className="w-4 h-4 text-[#b60090]" />
             </span>
-            <span className="font-bold text-sm text-[#1a1a1a]">Captured Mall Shoppers</span>
+            <span className="font-bold text-sm text-[#1a1429]">Captured Mall Shoppers</span>
           </div>
-          <span className="text-xs font-semibold px-3 py-1 bg-gray-100 text-gray-700 rounded-full">
+          <span className="text-xs font-semibold px-3 py-1 bg-purple-50 text-[#321c65] border border-purple-100 rounded-full">
             {leads.length} Active Leads
           </span>
         </div>
@@ -55,7 +55,7 @@ export default function LeadsPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-sm">
             <thead>
-              <tr className="bg-[#f7f7f7] text-gray-500 text-xs font-semibold uppercase tracking-wider border-b border-gray-100">
+              <tr className="bg-[#f7f6fa] text-gray-500 text-xs font-semibold uppercase tracking-wider border-b border-gray-100">
                 <th className="py-4 px-6">Customer Name</th>
                 <th className="py-4 px-6">Interaction Type</th>
                 <th className="py-4 px-6">Last Contact Date</th>
@@ -67,14 +67,14 @@ export default function LeadsPage() {
                 <tr key={lead.id} className="hover:bg-gray-50/70 transition">
                   <td className="py-4 px-6">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-full bg-purple-50 text-[#8554ff] font-bold text-xs flex items-center justify-center border border-purple-100">
+                      <div className="w-9 h-9 rounded-full bg-purple-100 text-[#321c65] font-bold text-xs flex items-center justify-center border border-purple-200">
                         {lead.name.split(' ').map((n: string) => n[0]).join('')}
                       </div>
                       <span className="font-semibold text-gray-900">{lead.name}</span>
                     </div>
                   </td>
                   <td className="py-4 px-6">
-                    <span className="bg-purple-50 text-[#8554ff] border border-purple-100 text-xs font-semibold px-3 py-1 rounded-full">
+                    <span className="bg-pink-50 text-[#b60090] border border-pink-100 text-xs font-semibold px-3 py-1 rounded-full">
                       {lead.interaction_type}
                     </span>
                   </td>

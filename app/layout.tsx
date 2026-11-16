@@ -3,7 +3,7 @@
 import './globals.css';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Sparkles, MessageSquare, Users, Calendar, Compass, ArrowUpRight } from 'lucide-react';
+import { Sparkles, MessageSquare, Users, Calendar, Compass } from 'lucide-react';
 import { startTour } from '@/lib/useTour';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -18,20 +18,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en">
-      <body className="flex h-screen bg-[#f7f7f7] text-[#1a1a1a] antialiased selection:bg-[#8554ff] selection:text-white font-sans overflow-hidden">
-        {/* AdScale Sleek Left Sidebar */}
-        <aside className="w-20 lg:w-72 bg-white border-r border-[#1a1a1a]/10 p-5 flex flex-col justify-between z-40 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+      <body className="flex h-screen bg-[#f7f6fa] text-[#1a1429] antialiased selection:bg-[#321c65] selection:text-white font-sans overflow-hidden">
+        {/* AdScale Sleek Left Sidebar styled with Pacific Mall Logo Palette */}
+        <aside className="w-20 lg:w-72 bg-white border-r border-[#321c65]/10 p-5 flex flex-col justify-between z-40 shadow-[4px_0_24px_rgba(50,28,101,0.02)]">
           <div>
-            {/* Top Brand Pill Header */}
+            {/* Top Brand Pill Header with Original Pacific Mall Logo */}
             <Link href="/dashboard" className="flex items-center gap-3 mb-8 p-1">
-              <div className="w-10 h-10 rounded-2xl bg-[#8554ff] flex items-center justify-center text-white font-bold text-lg shadow-[0_4px_14px_rgba(133,84,255,0.35)] shrink-0">
-                P
-              </div>
+              <img 
+                src="https://graph.facebook.com/PMMandaueofficial/picture?type=large" 
+                alt="Pacific Mall Logo" 
+                className="w-11 h-11 rounded-2xl object-cover shadow-[0_4px_14px_rgba(50,28,101,0.25)] border border-[#321c65]/15 shrink-0" 
+              />
               <div className="hidden lg:flex flex-col">
-                <span className="font-bold text-base tracking-tight text-[#1a1a1a] leading-tight">
-                  Pacific<span className="text-[#8554ff]">Mall</span>
+                <span className="font-bold text-base tracking-tight text-[#1a1429] leading-tight">
+                  Pacific<span className="text-[#321c65]">Mall</span>
                 </span>
-                <span className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">
+                <span className="text-[10px] text-[#b60090] font-bold uppercase tracking-wider">
                   Marketing System
                 </span>
               </div>
@@ -49,11 +51,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     href={item.href}
                     className={`flex items-center gap-3.5 px-3.5 py-3 rounded-2xl text-xs sm:text-sm font-medium transition-all ${
                       isActive
-                        ? 'bg-[#8554ff] text-white shadow-[0_4px_14px_rgba(133,84,255,0.3)]'
-                        : 'text-gray-600 hover:text-[#1a1a1a] hover:bg-[#f7f7f7]'
+                        ? 'bg-[#321c65] text-white shadow-[0_4px_14px_rgba(50,28,101,0.3)]'
+                        : 'text-gray-600 hover:text-[#321c65] hover:bg-[#f7f6fa]'
                     }`}
                   >
-                    <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-gray-500'}`} />
+                    <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-[#321c65]/70'}`} />
                     <span className="hidden lg:block">{item.label}</span>
                   </Link>
                 );
@@ -65,20 +67,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="space-y-3 pt-6 border-t border-gray-100">
             <button
               onClick={startTour}
-              className="w-full flex items-center justify-center gap-2 bg-[#f7f7f7] border border-gray-200/80 hover:border-[#8554ff]/40 rounded-2xl py-2.5 text-xs font-semibold text-gray-700 hover:text-[#8554ff] transition shadow-sm"
+              className="w-full flex items-center justify-center gap-2 bg-[#f7f6fa] border border-[#321c65]/15 hover:border-[#b60090]/50 rounded-2xl py-2.5 text-xs font-semibold text-[#321c65] hover:text-[#b60090] transition shadow-sm"
             >
-              <Compass className="w-3.5 h-3.5" />
+              <Compass className="w-3.5 h-3.5 text-[#b60090]" />
               <span className="hidden lg:inline">System Tour</span>
             </button>
             <div className="hidden lg:flex items-center justify-between px-2 text-[11px] text-gray-400 font-medium">
               <span>Pacific Mall Mandaue</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-[#26aa00] animate-pulse" />
             </div>
           </div>
         </aside>
 
         {/* Main Content Area */}
-        <main className="flex-1 overflow-y-auto bg-[#f7f7f7] relative">
+        <main className="flex-1 overflow-y-auto bg-[#f7f6fa] relative">
           {children}
         </main>
       </body>

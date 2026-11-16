@@ -17,56 +17,104 @@
     font-family: var(--font-inter);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #f7f7f7;
-    color: #1a1a1a;
+    background-color: #f7f6fa;
+    color: #1a1429;
   }
 }
 
-/* AdScale Design System Utilities */
+/* AdScale Design System with Pacific Mall Logo Color Scheme */
 .ad-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background-color: #ffffff;
-  border: 1px solid rgba(26, 26, 26, 0.08);
+  border: 1px solid rgba(50, 28, 101, 0.1);
   border-radius: 9999px;
   padding: 6px 16px;
   font-size: 12px;
   font-weight: 600;
-  color: #1a1a1a;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.02);
+  color: #321c65;
+  box-shadow: 0px 2px 6px rgba(50, 28, 101, 0.03);
 }
 
 .ad-badge-purple {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(133, 84, 255, 0.1);
-  border: 1px solid rgba(133, 84, 255, 0.2);
+  background-color: rgba(50, 28, 101, 0.08);
+  border: 1px solid rgba(50, 28, 101, 0.18);
   border-radius: 9999px;
   padding: 4px 12px;
   font-size: 11px;
   font-weight: 600;
-  color: #8554ff;
+  color: #321c65;
 }
 
+.ad-badge-magenta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(182, 0, 144, 0.08);
+  border: 1px solid rgba(182, 0, 144, 0.2);
+  border-radius: 9999px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #b60090;
+}
+
+.ad-badge-green {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(38, 170, 0, 0.1);
+  border: 1px solid rgba(38, 170, 0, 0.25);
+  border-radius: 9999px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #26aa00;
+}
+
+/* Primary Button in Pacific Mall Royal Purple */
 .ad-btn-purple {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: #8554ff;
+  background-color: #321c65;
   color: #ffffff;
   font-size: 13px;
   font-weight: 600;
   padding: 12px 20px;
   border-radius: 14px;
-  box-shadow: rgba(255, 255, 255, 0.25) 0px 1px 1px 0px inset, rgba(133, 84, 255, 0.25) 0px 4px 12px 0px;
+  box-shadow: rgba(255, 255, 255, 0.2) 0px 1px 1px 0px inset, rgba(50, 28, 101, 0.3) 0px 4px 14px 0px;
   transition: all 0.2s ease;
 }
 
 .ad-btn-purple:hover {
-  background-color: #7442f5;
+  background-color: #231349;
+  transform: translateY(-1px);
+}
+
+/* Accent Button in Pacific Mall Magenta */
+.ad-btn-magenta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #b60090;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 14px;
+  box-shadow: rgba(255, 255, 255, 0.25) 0px 1px 1px 0px inset, rgba(182, 0, 144, 0.3) 0px 4px 14px 0px;
+  transition: all 0.2s ease;
+}
+
+.ad-btn-magenta:hover {
+  background-color: #9e007d;
   transform: translateY(-1px);
 }
 
@@ -76,36 +124,35 @@
   justify-content: center;
   gap: 8px;
   background-color: #ffffff;
-  color: #1a1a1a;
+  color: #321c65;
   font-size: 13px;
   font-weight: 600;
   padding: 10px 18px;
   border-radius: 12px;
-  border: 1px solid rgba(26, 26, 26, 0.08);
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(50, 28, 101, 0.12);
+  box-shadow: 0px 2px 4px rgba(50, 28, 101, 0.03);
   transition: all 0.2s ease;
 }
 
 .ad-btn-white:hover {
-  background-color: #f1f1f1;
-  border-color: rgba(26, 26, 26, 0.15);
+  background-color: #f7f6fa;
+  border-color: rgba(50, 28, 101, 0.25);
   transform: translateY(-1px);
 }
 
 /* Card utility */
 .adscale-card {
   background-color: #ffffff;
-  border: 1px solid rgba(26, 26, 26, 0.08);
+  border: 1px solid rgba(50, 28, 101, 0.08);
   border-radius: 24px;
-  box-shadow: 0px 4px 20px -2px rgba(0, 0, 0, 0.03);
+  box-shadow: 0px 6px 24px -2px rgba(50, 28, 101, 0.04);
 }
 
-/* Legacy utility support mapped to AdScale styling */
 .apple-card {
   background-color: #ffffff;
-  border: 1px solid rgba(26, 26, 26, 0.08);
+  border: 1px solid rgba(50, 28, 101, 0.08);
   border-radius: 24px;
-  box-shadow: 0px 4px 20px -2px rgba(0, 0, 0, 0.03);
+  box-shadow: 0px 6px 24px -2px rgba(50, 28, 101, 0.04);
 }
 
 .btn-futuristic {
@@ -118,12 +165,12 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f7f7f7;
+  background: #f7f6fa;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d1d5db;
+  background: #d8d3e6;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
+  background: #321c65;
 }

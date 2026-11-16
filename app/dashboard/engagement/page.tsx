@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { MessageSquare, Sparkles, Send, CheckCircle2, Bot } from 'lucide-react';
+import { MessageSquare, Sparkles, Send, Bot } from 'lucide-react';
 
 export default function EngagementDashboard() {
   const [comments, setComments] = useState<any[]>([]);
@@ -54,8 +54,8 @@ export default function EngagementDashboard() {
       {/* Header */}
       <header className="mb-10">
         <div className="ad-badge mb-3">Social Command</div>
-        <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#1a1a1a]">
-          Engagement <span className="font-serif italic font-normal text-[#8554ff]">Hub</span>
+        <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#1a1429]">
+          Engagement <span className="font-serif italic font-normal text-[#321c65]">Hub</span>
         </h1>
         <p className="text-gray-500 text-sm mt-2">
           Review incoming Facebook & social customer inquiries and deploy AI-suggested responses.
@@ -69,26 +69,26 @@ export default function EngagementDashboard() {
             key={item.id} 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="adscale-card p-6 sm:p-8 hover:border-[#8554ff]/30 transition-all"
+            className="adscale-card p-6 sm:p-8 hover:border-[#321c65]/30 transition-all"
           >
             {/* Top user profile row */}
             <div className="flex items-start justify-between gap-4 mb-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-purple-50 text-[#8554ff] border border-purple-100 flex items-center justify-center font-bold text-base">
+                <div className="w-10 h-10 rounded-2xl bg-purple-50 text-[#321c65] border border-[#321c65]/15 flex items-center justify-center font-bold text-base">
                   {item.from?.name?.charAt(0) || 'U'}
                 </div>
                 <div>
-                  <p className="font-bold text-base text-[#1a1a1a]">{item.from?.name || "Customer"}</p>
+                  <p className="font-bold text-base text-[#1a1429]">{item.from?.name || "Customer"}</p>
                   <p className="text-[11px] text-gray-400 font-semibold uppercase tracking-wider">Incoming Facebook Comment</p>
                 </div>
               </div>
-              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-100">
+              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-pink-50 text-[#b60090] border border-pink-100">
                 Action Required
               </span>
             </div>
             
             {/* Message Bubble */}
-            <div className="bg-[#f7f7f7] p-5 rounded-2xl border border-gray-100 mb-6">
+            <div className="bg-[#f7f6fa] p-5 rounded-2xl border border-gray-100 mb-6">
               <p className="text-base text-gray-800 font-normal leading-relaxed">
                 "{item.message}"
               </p>
@@ -100,7 +100,7 @@ export default function EngagementDashboard() {
               disabled={loading[item.id]}
               className="w-full ad-btn-purple !py-3 !text-xs sm:!text-sm"
             >
-              <Bot className="w-4 h-4" />
+              <Bot className="w-4 h-4 text-pink-300" />
               {loading[item.id] ? "ANALYZING COMMENT..." : "GENERATE INTELLIGENT REPLY"}
             </button>
 
@@ -109,9 +109,9 @@ export default function EngagementDashboard() {
               <motion.div 
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
-                className="mt-6 p-6 bg-purple-50/60 border border-purple-200/60 rounded-2xl"
+                className="mt-6 p-6 bg-[#f7f6fa] border border-[#321c65]/20 rounded-2xl"
               >
-                <div className="flex items-center gap-1.5 text-xs font-bold text-[#8554ff] uppercase tracking-wider mb-2">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-[#b60090] uppercase tracking-wider mb-2">
                   <Sparkles className="w-3.5 h-3.5" /> Suggested Response
                 </div>
                 <p className="text-gray-800 text-sm sm:text-base leading-relaxed mb-6 font-normal">
@@ -120,7 +120,7 @@ export default function EngagementDashboard() {
                 <div className="flex flex-col sm:flex-row items-center gap-3">
                   <button
                     onClick={() => alert('Reply approved and dispatched to customer!')}
-                    className="w-full sm:w-auto ad-btn-purple !py-2.5 !px-6 !text-xs font-bold"
+                    className="w-full sm:w-auto ad-btn-magenta !py-2.5 !px-6 !text-xs font-bold"
                   >
                     <Send className="w-3.5 h-3.5" /> APPROVE & SEND
                   </button>

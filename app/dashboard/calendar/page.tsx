@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Calendar as CalendarIcon, Clock, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, CheckCircle2 } from 'lucide-react';
 
 const DEMO_POSTS = [
   {
@@ -48,8 +48,8 @@ export default function CalendarView() {
       {/* Header */}
       <header className="mb-8">
         <div className="ad-badge mb-3">Campaign Scheduler</div>
-        <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#1a1a1a]">
-          Content <span className="font-serif italic font-normal text-[#8554ff]">Calendar</span>
+        <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#1a1429]">
+          Content <span className="font-serif italic font-normal text-[#321c65]">Calendar</span>
         </h1>
         <p className="text-gray-500 text-sm mt-2">
           Manage scheduled promotional posts, tenant events, and active social media campaigns.
@@ -63,11 +63,11 @@ export default function CalendarView() {
           return (
             <div
               key={post.id}
-              className="adscale-card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-[#8554ff]/30 transition"
+              className="adscale-card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-[#321c65]/30 transition"
             >
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-gray-500 font-mono">
-                  <CalendarIcon className="w-3.5 h-3.5 text-[#8554ff]" />
+                  <CalendarIcon className="w-3.5 h-3.5 text-[#b60090]" />
                   <span>
                     {new Date(post.scheduled_for).toLocaleString([], {
                       dateStyle: 'medium',
@@ -84,18 +84,18 @@ export default function CalendarView() {
                 <span
                   className={`px-3.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5 ${
                     isPending
-                      ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                      : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                      ? 'bg-pink-50 text-[#b60090] border border-pink-200'
+                      : 'bg-green-50 text-[#26aa00] border border-green-200'
                   }`}
                 >
                   {isPending ? (
                     <>
-                      <Clock className="w-3 h-3" />
+                      <Clock className="w-3 h-3 text-[#b60090]" />
                       PENDING
                     </>
                   ) : (
                     <>
-                      <CheckCircle2 className="w-3 h-3" />
+                      <CheckCircle2 className="w-3 h-3 text-[#26aa00]" />
                       POSTED
                     </>
                   )}
