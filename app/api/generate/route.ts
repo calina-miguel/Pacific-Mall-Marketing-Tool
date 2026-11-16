@@ -1,34 +1,36 @@
+// app/api/generate/route.ts
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
+
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY || "");
 
 export async function POST(req: Request) {
   try {
     const { topic, context } = await req.json();
 
-    const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+    // 1. Fetch recent successful posts for style reference (if FB credentials exist)
+    let styleReferences = "Polite, community-focused, and retail-oriented.";
+    const PAGE_ID = process.env.FB_PAGE_ID;
+    const ACCESS_TOKEN = process.env.FB_PAGE_ACCESS_TOKEN;
 
-    if (!apiKey || apiKey === 'your_actual_api_key_here') {
-      // Fallback demo content when API key is not yet set up
-      return NextResponse.json({
-        variations: [
-          {
-            content: `🛍️ Big news at Pacific Mall Mandaue! 🎉\n\nAre you ready for the ultimate experience? ${topic || 'Grand Shopping Event'} is finally here! Bring your family and friends for exclusive deals, delicious dining, and great vibes.\n\n📍 Visit us today at Pacific Mall Mandaue!\n\n#PacificMallMandaue #MandaueShopping #CebuPromos #MallSale #CebuLife #ShopMandaue`,
-          },
-          {
-            content: `✨ Exciting updates coming your way! 🛍️\n\nPacific Mall Mandaue presents: ${topic || 'Weekend Extravaganza'}. Don't miss out on special discounts, family fun, and trendy finds.\n\n👉 Tag a friend you're coming with below!\n\n#PacificMall #MandaueCity #ShoppingMall #CebuEvents #WeekendVibes #DiscountsPh`,
-          },
-          {
-            content: `🔥 Highlight of the Week at Pacific Mall Mandaue! 🏬\n\nExperience the best in shopping, food, and entertainment with ${topic || 'our latest offerings'}. Quality, convenience, and fun all under one roof!\n\n🕒 Open daily! See you at Pacific Mall!\n\n#PacificMallMandaue #CebuMall #MandauePromos #ShopLocalCebu #MallDeals #CebuShopping`,
-          }
-        ]
-      });
+    if (PAGE_ID && ACCESS_TOKEN && !ACCESS_TOKEN.includes('your_')) {
+      try {
+        const response = await fetch(`https://graph.facebook.com/v21.0/${PAGE_ID}/feed?limit=3&access_token=${ACCESS_TOKEN}`);
+        const data = await response.json();
+        styleReferences = data.data.map((post: any) => post.message).join(' | ');
+      } catch (err) {
+        console.error("Could not fetch style references:", err);
+      }
     }
 
-    const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = `
       Act as a social media expert for "Pacific Mall Mandaue".
+      
+      Your writing style should emulate these recent successful posts:
+      "${styleReferences}"
+      
       Topic: ${topic}
       Context: ${context}
       

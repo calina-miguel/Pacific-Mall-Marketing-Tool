@@ -7,6 +7,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: '**.supabase.co',
       },
+      {
+        protocol: 'https',
+        hostname: '**.facebook.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'graph.facebook.com',
+      }
     ],
   },
 };

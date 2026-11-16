@@ -6,7 +6,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className="flex h-screen bg-gray-100">
         <nav className="w-64 bg-gray-900 text-white p-6">
-          <h1 className="text-xl font-bold mb-8">Pacific Mall Admin</h1>
+          <h1 className="text-xl font-bold mb-8">
+            <img src="https://graph.facebook.com/PMMandaueofficial/picture?type=large" alt="Pacific Mall Mandaue" className="w-16 h-16 rounded-full border-2 border-white mb-4" />
+            Pacific Mall Admin
+          </h1>
           <ul className="space-y-4">
             <li><Link href="/dashboard" className="block hover:text-blue-400">Content Studio</Link></li>
             <li><Link href="/dashboard/engagement" className="block hover:text-blue-400">Engagement Hub</Link></li>
