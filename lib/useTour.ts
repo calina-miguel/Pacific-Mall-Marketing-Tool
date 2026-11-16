@@ -6,49 +6,39 @@ export const startTour = () => {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     
-    // Get all available voices
     const voices = window.speechSynthesis.getVoices();
-    
-    // Priority list for high-quality, professional female voices
-    const proVoices = [
-        "Microsoft Jenny Online", 
-        "Microsoft Aria Online",
-        "Samantha", 
-        "Google US English", 
-        "Karen"
-    ];
+    const naturalVoice = voices.find(v => 
+        v.name.includes("Microsoft Aria") || 
+        v.name.includes("Microsoft Jenny") || 
+        v.name.includes("Samantha")
+    );
 
-    const selectedVoice = voices.find(v => proVoices.some(p => v.name.includes(p))) || voices[0];
+    if (naturalVoice) utterance.voice = naturalVoice;
     
-    utterance.voice = selectedVoice;
-    utterance.rate = 0.9;   // Slower = more professional
-    utterance.pitch = 1.05; // Slightly higher for clarity
-    
+    utterance.rate = 0.9;
+    utterance.pitch = 1.0;
     window.speechSynthesis.speak(utterance);
   };
 
   const driverObj = driver({
     showProgress: true,
     onHighlightStarted: (element) => {
-      const currentPath = window.location.pathname;
-      if (element?.id === 'content-studio' && currentPath !== '/dashboard') window.location.href = '/dashboard';
-      else if (element?.id === 'engagement-hub' && currentPath !== '/dashboard/engagement') window.location.href = '/dashboard/engagement';
-      else if (element?.id === 'lead-crm' && currentPath !== '/dashboard/leads') window.location.href = '/dashboard/leads';
+      const path = window.location.pathname;
+      if (element?.id === 'content-studio' && path !== '/dashboard') window.location.href = '/dashboard';
+      else if (element?.id === 'engagement-hub' && path !== '/dashboard/engagement') window.location.href = '/dashboard/engagement';
+      else if (element?.id === 'lead-crm' && path !== '/dashboard/leads') window.location.href = '/dashboard/leads';
     },
     onHighlighted: (element) => {
       const step = driverObj.getActiveStep();
       if (step?.popover?.description) speak(step.popover.description);
     },
     steps: [
-      { element: '#content-studio', popover: { title: 'Content Studio', description: 'Enter a topic here to generate AI-powered, trend-compliant posts.' } },
-      { element: '#engagement-hub', popover: { title: 'Engagement Hub', description: 'Monitor customer interactions and get AI-assisted reply suggestions.' } },
-      { element: '#lead-crm', popover: { title: 'Lead CRM', description: 'See all captured leads here for your outreach campaigns.' } }
+      { element: '#content-studio', popover: { title: 'Content Studio', description: 'Centralized content studio. Generate trend-compliant assets tailored to your brand voice.' } },
+      { element: '#engagement-hub', popover: { title: 'Engagement Hub', description: 'Real-time engagement hub. AI-assisted response workflows for streamlined customer interactions.' } },
+      { element: '#lead-crm', popover: { title: 'Lead CRM', description: 'Integrated lead management. Automatically capture and track customer outreach data.' } }
     ]
   });
 
-  // Small delay to ensure voices are loaded in the browser
-  setTimeout(() => {
-    speak("Welcome to your Pacific Mall Marketing Dashboard. Let me show you around.");
-    driverObj.drive();
-  }, 500);
+  speak("Welcome to the Pacific Mall Core. A unified marketing automation engine for Mandaue. Let us begin.");
+  driverObj.drive();
 };
