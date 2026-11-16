@@ -2,26 +2,28 @@ import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
 
 export const startTour = () => {
-  const getNaturalVoice = () => {
-    const voices = window.speechSynthesis.getVoices();
-    // These are the high-quality native neural voices found on modern Windows/macOS
-    const preferred = [
-      "Microsoft Jenny",    // Extremely natural Windows
-      "Samantha",           // Classic macOS
-      "Karen",              // Australian natural
-      "Google US English", 
-      "Zira"
-    ];
-    return voices.find(v => preferred.some(p => v.name.includes(p))) || voices[0];
-  };
-
   const speak = (text: string) => {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    const voice = getNaturalVoice();
-    if (voice) utterance.voice = voice;
-    utterance.rate = 0.92; // Slightly slower feels more professional/thoughtful
-    utterance.pitch = 1.0;
+    
+    // Get all available voices
+    const voices = window.speechSynthesis.getVoices();
+    
+    // Priority list for high-quality, professional female voices
+    const proVoices = [
+        "Microsoft Jenny Online", 
+        "Microsoft Aria Online",
+        "Samantha", 
+        "Google US English", 
+        "Karen"
+    ];
+
+    const selectedVoice = voices.find(v => proVoices.some(p => v.name.includes(p))) || voices[0];
+    
+    utterance.voice = selectedVoice;
+    utterance.rate = 0.9;   // Slower = more professional
+    utterance.pitch = 1.05; // Slightly higher for clarity
+    
     window.speechSynthesis.speak(utterance);
   };
 
@@ -44,6 +46,9 @@ export const startTour = () => {
     ]
   });
 
-  speak("Welcome to your Pacific Mall Marketing Dashboard. Let me show you around.");
-  driverObj.drive();
+  // Small delay to ensure voices are loaded in the browser
+  setTimeout(() => {
+    speak("Welcome to your Pacific Mall Marketing Dashboard. Let me show you around.");
+    driverObj.drive();
+  }, 500);
 };
