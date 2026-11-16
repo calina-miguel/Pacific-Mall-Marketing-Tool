@@ -35,7 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               />
               <div className="hidden lg:flex flex-col">
                 <span className="font-bold text-base tracking-tight text-[#1a1429] leading-tight">
-                  Pacific<span className="text-[#321c65]">Mall</span>
+                  Pacific <span className="text-[#321c65]">Mall</span>
                 </span>
                 <span className="text-[10px] text-[#b60090] font-bold uppercase tracking-wider">
                   Marketing System
