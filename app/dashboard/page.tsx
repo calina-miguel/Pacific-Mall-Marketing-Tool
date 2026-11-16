@@ -29,9 +29,9 @@ export default function Dashboard() {
           <p className="text-gray-400 font-mono tracking-widest uppercase text-sm">Marketing Automation Engine v1.0</p>
         </header>
         
-        <div className="apple-card bg-pm-dark/50 border-pm-accent/20 p-8 mb-10">
+        <div className="apple-card p-8 mb-10 border-pm-accent/40">
           <textarea 
-            className="w-full bg-transparent p-4 outline-none text-2xl font-light placeholder:text-gray-600"
+            className="w-full bg-transparent p-4 outline-none text-2xl font-light text-white placeholder:text-gray-600"
             placeholder="What's the next big event?"
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
