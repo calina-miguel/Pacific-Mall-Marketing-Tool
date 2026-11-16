@@ -18,6 +18,17 @@ export const startTour = () => {
 
   const driverObj = driver({
     showProgress: true,
+    onHighlightStarted: (element) => {
+      // Automatically navigate if the element is on a different page
+      const currentPath = window.location.pathname;
+      if (element?.id === 'content-studio' && currentPath !== '/dashboard') {
+        window.location.href = '/dashboard';
+      } else if (element?.id === 'engagement-hub' && currentPath !== '/dashboard/engagement') {
+        window.location.href = '/dashboard/engagement';
+      } else if (element?.id === 'lead-crm' && currentPath !== '/dashboard/leads') {
+        window.location.href = '/dashboard/leads';
+      }
+    },
     onHighlighted: (element) => {
       const step = driverObj.getActiveStep();
       if (step?.popover?.description) {
