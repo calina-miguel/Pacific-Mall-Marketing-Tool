@@ -22,15 +22,7 @@
   }
 }
 
-/* AdScale custom utilities */
-.ad-container {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 24px;
-  padding-right: 24px;
-}
-
+/* AdScale Design System Utilities */
 .ad-badge {
   display: inline-flex;
   align-items: center;
@@ -38,11 +30,11 @@
   background-color: #ffffff;
   border: 1px solid rgba(26, 26, 26, 0.08);
   border-radius: 9999px;
-  padding: 8px 18px;
-  font-size: 13px;
-  font-weight: 500;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 600;
   color: #1a1a1a;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.02);
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.02);
 }
 
 .ad-badge-purple {
@@ -52,8 +44,8 @@
   background-color: rgba(133, 84, 255, 0.1);
   border: 1px solid rgba(133, 84, 255, 0.2);
   border-radius: 9999px;
-  padding: 6px 14px;
-  font-size: 12px;
+  padding: 4px 12px;
+  font-size: 11px;
   font-weight: 600;
   color: #8554ff;
 }
@@ -65,11 +57,11 @@
   gap: 8px;
   background-color: #8554ff;
   color: #ffffff;
-  font-size: 14px;
-  font-weight: 500;
-  padding: 12px 24px;
-  border-radius: 12px;
-  box-shadow: rgba(255, 255, 255, 0.25) 0px 1px 1px 0px inset, rgba(133, 84, 255, 0.3) 0px 4px 14px 0px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 14px;
+  box-shadow: rgba(255, 255, 255, 0.25) 0px 1px 1px 0px inset, rgba(133, 84, 255, 0.25) 0px 4px 12px 0px;
   transition: all 0.2s ease;
 }
 
@@ -85,12 +77,12 @@
   gap: 8px;
   background-color: #ffffff;
   color: #1a1a1a;
-  font-size: 14px;
-  font-weight: 500;
-  padding: 12px 24px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 18px;
   border-radius: 12px;
   border: 1px solid rgba(26, 26, 26, 0.08);
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.03);
   transition: all 0.2s ease;
 }
 
@@ -100,36 +92,37 @@
   transform: translateY(-1px);
 }
 
-.ad-btn-dark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background-color: #1a1a1a;
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 500;
-  padding: 12px 24px;
-  border-radius: 12px;
-  transition: all 0.2s ease;
+/* Card utility */
+.adscale-card {
+  background-color: #ffffff;
+  border: 1px solid rgba(26, 26, 26, 0.08);
+  border-radius: 24px;
+  box-shadow: 0px 4px 20px -2px rgba(0, 0, 0, 0.03);
 }
 
-.ad-btn-dark:hover {
-  background-color: #303030;
-  transform: translateY(-1px);
+/* Legacy utility support mapped to AdScale styling */
+.apple-card {
+  background-color: #ffffff;
+  border: 1px solid rgba(26, 26, 26, 0.08);
+  border-radius: 24px;
+  box-shadow: 0px 4px 20px -2px rgba(0, 0, 0, 0.03);
+}
+
+.btn-futuristic {
+  @apply ad-btn-purple;
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: #f7f7f7;
 }
 ::-webkit-scrollbar-thumb {
   background: #d1d5db;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;

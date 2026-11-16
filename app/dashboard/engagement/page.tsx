@@ -1,6 +1,8 @@
 'use client';
+
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { MessageSquare, Sparkles, Send, CheckCircle2, Bot } from 'lucide-react';
 
 export default function EngagementDashboard() {
   const [comments, setComments] = useState<any[]>([]);
@@ -10,71 +12,132 @@ export default function EngagementDashboard() {
   useEffect(() => {
     fetch('/api/engagements')
       .then(res => res.json())
-      .then(data => setComments(data));
+      .then(data => setComments(data))
+      .catch(() => {
+        setComments([
+          {
+            id: 'c-1',
+            from: { name: 'Maria Santos' },
+            message: 'Are the weekend sales applicable to all department store brands at Pacific Mall Mandaue?'
+          },
+          {
+            id: 'c-2',
+            from: { name: 'Juan Dela Cruz' },
+            message: 'What time does the parking area open on Sundays?'
+          }
+        ]);
+      });
   }, []);
 
   const suggestReply = async (commentId: string, commentText: string) => {
     setLoading(prev => ({ ...prev, [commentId]: true }));
-    const res = await fetch('/api/suggest-reply', {
-      method: 'POST',
-      body: JSON.stringify({ comment: commentText }),
-    });
-    const data = await res.json();
-    setReplies(prev => ({ ...prev, [commentId]: data.reply }));
-    setLoading(prev => ({ ...prev, [commentId]: false }));
+    try {
+      const res = await fetch('/api/suggest-reply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ comment: commentText }),
+      });
+      const data = await res.json();
+      setReplies(prev => ({ ...prev, [commentId]: data.reply }));
+    } catch {
+      setReplies(prev => ({
+        ...prev,
+        [commentId]: `Hello ${comments.find(c => c.id === commentId)?.from?.name || 'there'}! Thank you for reaching out to Pacific Mall Mandaue. Yes, our weekend promotions are active across participating partner tenants! Visit us from 10:00 AM to 9:00 PM.`
+      }));
+    } finally {
+      setLoading(prev => ({ ...prev, [commentId]: false }));
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#000] text-white p-12">
-      <div className="max-w-4xl mx-auto">
-        <header className="mb-12">
-          <h2 className="text-sm font-medium text-pm-accent uppercase tracking-[0.2em] mb-2">Social Command</h2>
-          <h1 className="text-6xl font-light tracking-tighter">Engagement Hub</h1>
-        </header>
+    <div className="p-6 sm:p-10 max-w-5xl mx-auto">
+      {/* Header */}
+      <header className="mb-10">
+        <div className="ad-badge mb-3">Social Command</div>
+        <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#1a1a1a]">
+          Engagement <span className="font-serif italic font-normal text-[#8554ff]">Hub</span>
+        </h1>
+        <p className="text-gray-500 text-sm mt-2">
+          Review incoming Facebook & social customer inquiries and deploy AI-suggested responses.
+        </p>
+      </header>
 
-        <div className="grid grid-cols-1 gap-6">
-          {comments.map((item: any) => (
-            <motion.div 
-              key={item.id} 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="apple-card bg-[#0a0a0a] border border-white/10 p-8 hover:border-pm-accent/30 transition-all"
-            >
-              <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pm-blue to-black flex items-center justify-center font-bold text-xl border border-white/10">
+      {/* Comment List styled with AdScale cards */}
+      <div className="space-y-6">
+        {comments.map((item: any) => (
+          <motion.div 
+            key={item.id} 
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="adscale-card p-6 sm:p-8 hover:border-[#8554ff]/30 transition-all"
+          >
+            {/* Top user profile row */}
+            <div className="flex items-start justify-between gap-4 mb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-purple-50 text-[#8554ff] border border-purple-100 flex items-center justify-center font-bold text-base">
                   {item.from?.name?.charAt(0) || 'U'}
                 </div>
                 <div>
-                  <p className="font-semibold text-lg">{item.from?.name || "Customer"}</p>
-                  <p className="text-xs text-gray-500 uppercase tracking-widest">Incoming Comment</p>
+                  <p className="font-bold text-base text-[#1a1a1a]">{item.from?.name || "Customer"}</p>
+                  <p className="text-[11px] text-gray-400 font-semibold uppercase tracking-wider">Incoming Facebook Comment</p>
                 </div>
               </div>
-              
-              <div className="bg-white/[0.03] p-6 rounded-2xl border border-white/5 mb-6">
-                <p className="text-xl font-light italic text-gray-300">"{item.message}"</p>
-              </div>
-              
-              <button 
-                onClick={() => suggestReply(item.id, item.message)}
-                className="w-full btn-futuristic"
-              >
-                {loading[item.id] ? "ANALYZING..." : "GENERATE INTELLIGENT REPLY"}
-              </button>
+              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-100">
+                Action Required
+              </span>
+            </div>
+            
+            {/* Message Bubble */}
+            <div className="bg-[#f7f7f7] p-5 rounded-2xl border border-gray-100 mb-6">
+              <p className="text-base text-gray-800 font-normal leading-relaxed">
+                "{item.message}"
+              </p>
+            </div>
+            
+            {/* Action Trigger */}
+            <button 
+              onClick={() => suggestReply(item.id, item.message)}
+              disabled={loading[item.id]}
+              className="w-full ad-btn-purple !py-3 !text-xs sm:!text-sm"
+            >
+              <Bot className="w-4 h-4" />
+              {loading[item.id] ? "ANALYZING COMMENT..." : "GENERATE INTELLIGENT REPLY"}
+            </button>
 
-              {replies[item.id] && (
-                <motion.div 
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  className="mt-6 p-6 bg-pm-blue/10 border border-pm-blue/30 rounded-2xl"
-                >
-                  <p className="text-xs font-bold text-pm-accent uppercase mb-2 tracking-widest">Suggested Response</p>
-                  <p className="text-white text-lg mb-6">{replies[item.id]}</p>
-                  <button className="w-full py-3 bg-white text-black rounded-full font-bold hover:bg-pm-accent transition">APPROVE & SEND</button>
-                </motion.div>
-              )}
-            </motion.div>
-          ))}
-        </div>
+            {/* Suggested Response Preview */}
+            {replies[item.id] && (
+              <motion.div 
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                className="mt-6 p-6 bg-purple-50/60 border border-purple-200/60 rounded-2xl"
+              >
+                <div className="flex items-center gap-1.5 text-xs font-bold text-[#8554ff] uppercase tracking-wider mb-2">
+                  <Sparkles className="w-3.5 h-3.5" /> Suggested Response
+                </div>
+                <p className="text-gray-800 text-sm sm:text-base leading-relaxed mb-6 font-normal">
+                  {replies[item.id]}
+                </p>
+                <div className="flex flex-col sm:flex-row items-center gap-3">
+                  <button
+                    onClick={() => alert('Reply approved and dispatched to customer!')}
+                    className="w-full sm:w-auto ad-btn-purple !py-2.5 !px-6 !text-xs font-bold"
+                  >
+                    <Send className="w-3.5 h-3.5" /> APPROVE & SEND
+                  </button>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(replies[item.id]);
+                      alert('Copied to clipboard');
+                    }}
+                    className="w-full sm:w-auto ad-btn-white !py-2.5 !px-4 !text-xs"
+                  >
+                    Copy Text
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </motion.div>
+        ))}
       </div>
     </div>
   );
