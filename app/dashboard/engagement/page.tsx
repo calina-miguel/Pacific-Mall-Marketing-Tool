@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 export default function EngagementDashboard() {
   const [comments, setComments] = useState<any[]>([]);
@@ -25,55 +25,57 @@ export default function EngagementDashboard() {
   };
 
   return (
-    <div className="p-8 min-h-screen bg-gray-50">
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-extrabold text-pm-blue mb-8">Engagement Hub</h2>
-        
-        <div className="space-y-6">
-          <AnimatePresence>
-            {comments.map((item: any) => (
-              <motion.div 
-                key={item.id} 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                className="apple-card p-6"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-pm-blue/10 flex items-center justify-center font-bold text-pm-blue">
-                    {item.from?.name?.charAt(0) || 'U'}
-                  </div>
-                  <div>
-                    <p className="font-bold text-pm-dark">{item.from?.name || "Customer"}</p>
-                    <p className="text-xs text-gray-400">Public Comment</p>
-                  </div>
-                </div>
-                
-                <p className="text-gray-800 mb-6 bg-gray-50 p-4 rounded-2xl">{item.message}</p>
-                
-                <button 
-                  onClick={() => suggestReply(item.id, item.message)}
-                  className="w-full bg-pm-blue text-white py-3 rounded-2xl font-semibold hover:bg-opacity-90 transition active:scale-95"
-                >
-                  {loading[item.id] ? "Thinking..." : "Generate AI Reply"}
-                </button>
+    <div className="min-h-screen bg-[#000] text-white p-12">
+      <div className="max-w-4xl mx-auto">
+        <header className="mb-12">
+          <h2 className="text-sm font-medium text-pm-accent uppercase tracking-[0.2em] mb-2">Social Command</h2>
+          <h1 className="text-6xl font-light tracking-tighter">Engagement Hub</h1>
+        </header>
 
-                {replies[item.id] && (
-                  <motion.div 
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    className="mt-4 p-4 bg-pm-blue/5 border border-pm-blue/10 rounded-2xl"
-                  >
-                    <p className="text-sm text-pm-blue font-bold mb-2">Suggested Response:</p>
-                    <p className="text-gray-700 mb-4">{replies[item.id]}</p>
-                    <button className="text-pm-accent font-bold text-sm hover:underline">Approve & Send</button>
-                  </motion.div>
-                )}
-              </motion.div>
-            ))}
-          </AnimatePresence>
+        <div className="grid grid-cols-1 gap-6">
+          {comments.map((item: any) => (
+            <motion.div 
+              key={item.id} 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="apple-card bg-[#0a0a0a] border border-white/10 p-8 hover:border-pm-accent/30 transition-all"
+            >
+              <div className="flex items-start gap-4 mb-6">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pm-blue to-black flex items-center justify-center font-bold text-xl border border-white/10">
+                  {item.from?.name?.charAt(0) || 'U'}
+                </div>
+                <div>
+                  <p className="font-semibold text-lg">{item.from?.name || "Customer"}</p>
+                  <p className="text-xs text-gray-500 uppercase tracking-widest">Incoming Comment</p>
+                </div>
+              </div>
+              
+              <div className="bg-white/[0.03] p-6 rounded-2xl border border-white/5 mb-6">
+                <p className="text-xl font-light italic text-gray-300">"{item.message}"</p>
+              </div>
+              
+              <button 
+                onClick={() => suggestReply(item.id, item.message)}
+                className="w-full btn-futuristic"
+              >
+                {loading[item.id] ? "ANALYZING..." : "GENERATE INTELLIGENT REPLY"}
+              </button>
+
+              {replies[item.id] && (
+                <motion.div 
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  className="mt-6 p-6 bg-pm-blue/10 border border-pm-blue/30 rounded-2xl"
+                >
+                  <p className="text-xs font-bold text-pm-accent uppercase mb-2 tracking-widest">Suggested Response</p>
+                  <p className="text-white text-lg mb-6">{replies[item.id]}</p>
+                  <button className="w-full py-3 bg-white text-black rounded-full font-bold hover:bg-pm-accent transition">APPROVE & SEND</button>
+                </motion.div>
+              )}
+            </motion.div>
+          ))}
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }
