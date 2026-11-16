@@ -17,6 +17,18 @@ const nextConfig = {
       }
     ],
   },
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          { key: 'X-Author', value: 'Miguel Calina' },
+          { key: 'X-Copyright', value: 'Copyright (c) 2026 Miguel Calina. All Rights Reserved.' },
+          { key: 'X-Robots-Tag', value: 'noindex, nofollow, noarchive' },
+        ],
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

@@ -1,6 +1,7 @@
 'use client';
 
 import './globals.css';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Sparkles, MessageSquare, Users, Calendar, Compass } from 'lucide-react';
@@ -9,6 +10,26 @@ import FirstTimeTourModal from '@/app/components/FirstTimeTourModal';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        // Embedded authorship & ownership watermark
+        Object.defineProperty(window, '__AUTHOR__', {
+          value: 'Miguel Calina',
+          writable: false,
+          configurable: false,
+        });
+        Object.defineProperty(window, '__SIGNATURE__', {
+          value: 'calina-miguel-pm-2026-auth',
+          writable: false,
+          configurable: false,
+        });
+      } catch {
+        // Ignore if already defined
+      }
+    }
+  }, []);
 
   const navItems = [
     { href: '/dashboard', label: 'Content Studio', icon: Sparkles, id: 'content-studio' },
@@ -19,7 +40,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en">
+      <head>
+        <meta name="author" content="Miguel Calina" />
+        <meta name="copyright" content="Copyright (c) 2026 Miguel Calina. All Rights Reserved." />
+        <meta name="creator" content="Miguel Calina" />
+        <meta name="publisher" content="Miguel Calina" />
+        <meta name="signature" content="calina-miguel-auth-2026" />
+      </head>
       <body className="flex h-screen bg-[#f7f6fa] text-[#1a1429] antialiased selection:bg-[#321c65] selection:text-white font-sans overflow-hidden">
+        {/* Invisible DOM Authorship Watermark: Miguel Calina */}
+        <div hidden aria-hidden="true" data-author="Miguel Calina" data-signature="calina-miguel-pm-2026" className="sr-only" />
+
         {/* First time user guided tour pop-up */}
         <FirstTimeTourModal />
 
