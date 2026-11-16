@@ -35,8 +35,8 @@ export default function Dashboard() {
                 onChange={(e) => setTopic(e.target.value)}
             />
             <div className="flex justify-end mt-4">
-                <button className="bg-white text-black px-8 py-3 rounded-full font-semibold hover:bg-pm-accent transition-all hover:scale-105 active:scale-95">
-                    GENERATE
+                <button onClick={generateContent} className="btn-futuristic">
+                    {loading ? 'CALCULATING...' : 'GENERATE'}
                 </button>
             </div>
         </div>
