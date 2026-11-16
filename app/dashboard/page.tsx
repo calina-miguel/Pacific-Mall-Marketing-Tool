@@ -23,8 +23,6 @@ import {
   Check, 
   Plus, 
   Settings, 
-  ExternalLink,
-  ShieldCheck,
   Radio
 } from 'lucide-react';
 import Link from 'next/link';
@@ -106,7 +104,6 @@ export default function Dashboard() {
   const [publishing, setPublishing] = useState(false);
   const [publishSuccess, setPublishSuccess] = useState(false);
   const [showAccountModal, setShowAccountModal] = useState(false);
-  const [activeTab, setActiveTab] = useState<'preview' | 'schedule'>('preview');
 
   // Load saved accounts state from localStorage
   useEffect(() => {
@@ -146,7 +143,6 @@ export default function Dashboard() {
     });
 
     setAttachedMedia((prev) => [...prev, ...newMedia]);
-    // Reset file input so user can attach same file again if desired
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
@@ -181,7 +177,7 @@ export default function Dashboard() {
   };
 
   const handleCopy = () => {
-    const text = generatedResult?.caption || (typeof generatedResult === 'string' ? generatedResult : JSON.stringify(generatedResult));
+    const text = generatedResult?.caption || topic || "Pacific Mall Mandaue campaign copy";
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -209,21 +205,21 @@ export default function Dashboard() {
     }
 
     setPublishing(true);
-    // Simulate real multi-platform API distribution
+    // Simulate real multi-platform distribution
     await new Promise((resolve) => setTimeout(resolve, 1500));
     setPublishing(false);
     setPublishSuccess(true);
-    setTimeout(() => setPublishSuccess(false), 4000);
+    setTimeout(() => setPublishSuccess(false), 4500);
   };
 
   const handleSchedulePost = async () => {
-    if (!generatedResult) return;
+    const content = generatedResult?.caption || topic || 'Weekend Shopping Promo at Pacific Mall Mandaue';
     try {
       await fetch('/api/schedule', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          content: generatedResult.caption || topic,
+          content,
           imageUrl: attachedMedia[0]?.url || 'https://graph.facebook.com/PMMandaueofficial/picture?type=large',
           scheduledFor: new Date(Date.now() + 86400000).toISOString(),
         }),
@@ -283,13 +279,13 @@ export default function Dashboard() {
 
             {/* Campaign Prompt Textarea */}
             <textarea 
-              className="w-full bg-[#f7f6fa] border border-[#321c65]/10 rounded-2xl p-3.5 sm:p-4 text-sm sm:text-base font-light placeholder:text-gray-400 min-h-[120px] sm:min-h-[140px] outline-none focus:ring-2 focus:ring-[#321c65] focus:border-transparent transition resize-none"
+              className="w-full bg-[#f7f6fa] border border-[#321c65]/10 rounded-2xl p-3.5 sm:p-4 text-sm sm:text-base font-light placeholder:text-gray-400 min-h-[110px] sm:min-h-[130px] outline-none focus:ring-2 focus:ring-[#321c65] focus:border-transparent transition resize-none"
               placeholder="Describe your next mall event, weekend sale, or tenant launch..."
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
             />
 
-            {/* Hidden File Input for Attachments */}
+            {/* Hidden File Input for Media Attachments */}
             <input 
               ref={fileInputRef}
               type="file" 
@@ -299,7 +295,7 @@ export default function Dashboard() {
               className="hidden"
             />
 
-            {/* Media Attachment Toolbar */}
+            {/* Media Attachment Action Bar */}
             <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <button
@@ -310,7 +306,7 @@ export default function Dashboard() {
                   <Paperclip className="w-3.5 h-3.5 text-[#b60090] group-hover:rotate-45 transition-transform" />
                   <span>Attach Media</span>
                 </button>
-                <span className="text-[11px] text-gray-400 hidden sm:inline">
+                <span className="text-[11px] text-gray-400">
                   Upload images, promo posters, or reels
                 </span>
               </div>
@@ -328,7 +324,7 @@ export default function Dashboard() {
                 {attachedMedia.map((media) => (
                   <div 
                     key={media.id} 
-                    className="relative group bg-white border border-[#321c65]/15 rounded-xl p-1.5 flex items-center gap-2 pr-3 shadow-xs"
+                    className="relative group bg-white border border-[#321c65]/15 rounded-xl p-1.5 flex items-center gap-2 pr-2.5 shadow-xs"
                   >
                     {media.type === 'image' ? (
                       <img 
@@ -341,14 +337,14 @@ export default function Dashboard() {
                         <Film className="w-5 h-5 text-[#b60090]" />
                       </div>
                     )}
-                    <div className="max-w-[130px] sm:max-w-[160px] truncate">
+                    <div className="max-w-[120px] sm:max-w-[150px] truncate">
                       <p className="text-xs font-medium text-gray-800 truncate">{media.name}</p>
                       <p className="text-[10px] text-gray-400">{media.size}</p>
                     </div>
                     <button
                       type="button"
                       onClick={() => handleRemoveMedia(media.id)}
-                      className="ml-1 p-1 rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
+                      className="p-1 rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
                       title="Remove file"
                     >
                       <X className="w-3.5 h-3.5" />
@@ -390,220 +386,220 @@ export default function Dashboard() {
           </div>
 
           {/* ========================================================== */}
-          {/* GENERATED CAMPAIGN PREVIEW & ATTACHED MEDIA                */}
+          {/* SOCIAL CAMPAIGN PREVIEW & ATTACHED MEDIA MOCKUP            */}
           {/* ========================================================== */}
-          {generatedResult && (
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-6 p-4 sm:p-6 bg-white border border-[#321c65]/20 rounded-2xl shadow-sm"
-            >
-              {/* Preview Header */}
-              <div className="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-gray-100">
-                <div className="flex items-center gap-2.5">
-                  <img
-                    src="https://graph.facebook.com/PMMandaueofficial/picture?type=large"
-                    alt="Pacific Mall"
-                    className="w-9 h-9 rounded-xl object-cover border border-[#321c65]/15"
-                  />
-                  <div>
-                    <h4 className="font-bold text-xs sm:text-sm text-[#1a1429]">Pacific Mall Mandaue</h4>
-                    <p className="text-[10px] text-gray-400">Social Campaign Preview • Just now</p>
-                  </div>
+          <div className="mt-6 p-4 sm:p-6 bg-[#f7f6fa]/60 border border-[#321c65]/15 rounded-2xl shadow-xs">
+            {/* Preview Header */}
+            <div className="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-gray-200">
+              <div className="flex items-center gap-2.5">
+                <img
+                  src="https://graph.facebook.com/PMMandaueofficial/picture?type=large"
+                  alt="Pacific Mall"
+                  className="w-9 h-9 rounded-xl object-cover border border-[#321c65]/15"
+                />
+                <div>
+                  <h4 className="font-bold text-xs sm:text-sm text-[#1a1429]">Pacific Mall Mandaue</h4>
+                  <p className="text-[10px] text-gray-400">Social Campaign Live Preview • Just now</p>
+                </div>
+              </div>
+              <button
+                onClick={handleCopy}
+                className="text-xs text-[#321c65] hover:text-[#b60090] font-semibold transition flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white border border-[#321c65]/10 shadow-xs"
+              >
+                <Copy className="w-3 h-3" />
+                <span>{copied ? 'Copied!' : 'Copy'}</span>
+              </button>
+            </div>
+
+            {/* Caption Text (Generated or Prompt or Placeholder) */}
+            <p className="text-xs sm:text-sm text-gray-800 whitespace-pre-line leading-relaxed mb-4">
+              {generatedResult?.caption 
+                ? (typeof generatedResult.caption === 'string' ? generatedResult.caption : JSON.stringify(generatedResult.caption))
+                : topic 
+                ? `🛍️ ${topic}\n\nStay tuned for exclusive updates, tenant deals, and weekend promotions at Pacific Mall Mandaue!\n\n#PacificMall #MandaueShopping #CebuDeals`
+                : "🛍️ Your generated campaign copy, hashtags, and attached media will preview here in real time. Type your topic above and click Launch Generation."
+              }
+            </p>
+
+            {/* Attached Media in Post Mockup */}
+            {attachedMedia.length > 0 && (
+              <div className="mb-4 rounded-xl overflow-hidden border border-gray-200 bg-white">
+                <div className={`grid gap-1.5 ${attachedMedia.length === 1 ? 'grid-cols-1' : attachedMedia.length === 2 ? 'grid-cols-2' : 'grid-cols-2 sm:grid-cols-3'}`}>
+                  {attachedMedia.map((m) => (
+                    <div key={m.id} className="relative aspect-video sm:aspect-square bg-black/5 overflow-hidden">
+                      {m.type === 'image' ? (
+                        <img src={m.url} alt={m.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex flex-col items-center justify-center bg-gray-900 text-white p-2">
+                          <Film className="w-8 h-8 text-[#b60090] mb-1" />
+                          <span className="text-[11px] truncate max-w-full text-center">{m.name}</span>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* ======================================================== */}
+            {/* SOCIAL MEDIA ONE-STOP LOGGED-IN / PUBLISHING COMMAND BAR */}
+            {/* ======================================================== */}
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                <div className="flex items-center gap-2">
+                  <Radio className="w-4 h-4 text-[#26aa00] animate-pulse" />
+                  <h5 className="font-bold text-xs sm:text-sm text-[#1a1429]">
+                    Connected Social Channels
+                  </h5>
                 </div>
                 <button
-                  onClick={handleCopy}
-                  className="text-xs text-[#321c65] hover:text-[#b60090] font-semibold transition flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#f7f6fa] border border-[#321c65]/10 shadow-xs"
+                  type="button"
+                  onClick={() => setShowAccountModal(true)}
+                  className="self-start sm:self-auto text-[11px] font-semibold text-[#321c65] hover:text-[#b60090] flex items-center gap-1 transition"
                 >
-                  <Copy className="w-3 h-3" />
-                  <span>{copied ? 'Copied!' : 'Copy'}</span>
+                  <Settings className="w-3 h-3" />
+                  <span>Manage Accounts</span>
                 </button>
               </div>
 
-              {/* Caption text */}
-              <p className="text-xs sm:text-sm text-gray-800 whitespace-pre-line leading-relaxed mb-4">
-                {generatedResult.caption || (typeof generatedResult === 'string' ? generatedResult : JSON.stringify(generatedResult))}
-              </p>
-
-              {/* Attached Media in Post Mockup */}
-              {attachedMedia.length > 0 && (
-                <div className="mb-4 rounded-xl overflow-hidden border border-gray-200 bg-[#f7f6fa]">
-                  <div className={`grid gap-1.5 ${attachedMedia.length === 1 ? 'grid-cols-1' : attachedMedia.length === 2 ? 'grid-cols-2' : 'grid-cols-2 sm:grid-cols-3'}`}>
-                    {attachedMedia.map((m) => (
-                      <div key={m.id} className="relative aspect-video sm:aspect-square bg-black/5 overflow-hidden">
-                        {m.type === 'image' ? (
-                          <img src={m.url} alt={m.name} className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="w-full h-full flex flex-col items-center justify-center bg-gray-900 text-white p-2">
-                            <Film className="w-8 h-8 text-[#b60090] mb-1" />
-                            <span className="text-[11px] truncate max-w-full text-center">{m.name}</span>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* ======================================================== */}
-              {/* SOCIAL MEDIA ONE-STOP LOGGED-IN / PUBLISHING COMMAND BAR */}
-              {/* ======================================================== */}
-              <div className="mt-5 pt-5 border-t border-gray-100">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-                  <div className="flex items-center gap-2">
-                    <Radio className="w-4 h-4 text-[#26aa00] animate-pulse" />
-                    <h5 className="font-bold text-xs sm:text-sm text-[#1a1429]">
-                      Connected Social Channels
-                    </h5>
-                  </div>
-                  <button
-                    onClick={() => setShowAccountModal(true)}
-                    className="self-start sm:self-auto text-[11px] font-semibold text-[#321c65] hover:text-[#b60090] flex items-center gap-1 transition"
-                  >
-                    <Settings className="w-3 h-3" />
-                    <span>Manage Accounts</span>
-                  </button>
-                </div>
-
-                {/* Connected Account Chips Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
-                  {socialAccounts.map((account) => {
-                    const isSelected = account.connected && account.selected;
-                    return (
-                      <div
-                        key={account.id}
-                        onClick={() => account.connected && toggleAccountSelection(account.id)}
-                        className={`p-3 rounded-xl border transition-all flex items-center justify-between gap-2 cursor-pointer ${
-                          !account.connected
-                            ? 'bg-gray-50/70 border-dashed border-gray-200 opacity-60'
-                            : isSelected
-                            ? 'bg-purple-50/60 border-[#321c65]/30 shadow-xs'
-                            : 'bg-[#f7f6fa] border-gray-200 hover:border-gray-300'
-                        }`}
-                      >
-                        <div className="flex items-center gap-2.5 min-w-0">
-                          {/* Platform Icon Badge */}
-                          <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 font-bold text-white shadow-xs">
-                            {account.platform === 'facebook' && (
-                              <div className="w-full h-full rounded-lg bg-[#1877F2] flex items-center justify-center">
-                                <Facebook className="w-4 h-4" />
-                              </div>
-                            )}
-                            {account.platform === 'instagram' && (
-                              <div className="w-full h-full rounded-lg bg-gradient-to-tr from-[#FD1D1D] via-[#E1306C] to-[#C13584] flex items-center justify-center">
-                                <Instagram className="w-4 h-4" />
-                              </div>
-                            )}
-                            {account.platform === 'tiktok' && (
-                              <div className="w-full h-full rounded-lg bg-black flex items-center justify-center text-[10px] font-black tracking-tighter">
-                                TT
-                              </div>
-                            )}
-                            {account.platform === 'google' && (
-                              <div className="w-full h-full rounded-lg bg-[#4285F4] flex items-center justify-center">
-                                <Globe className="w-4 h-4" />
-                              </div>
-                            )}
-                          </div>
-
-                          <div className="min-w-0">
-                            <p className="font-semibold text-xs text-gray-900 truncate leading-tight">
-                              {account.name}
-                            </p>
-                            <p className="text-[10px] text-gray-500 truncate">
-                              {account.connected ? account.followers : 'Disconnected'}
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Status / Checkbox */}
-                        <div>
-                          {account.connected ? (
-                            <div className={`w-5 h-5 rounded-md flex items-center justify-center transition-colors ${
-                              isSelected ? 'bg-[#321c65] text-white' : 'border border-gray-300 bg-white'
-                            }`}>
-                              {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+              {/* Connected Account Chips Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
+                {socialAccounts.map((account) => {
+                  const isSelected = account.connected && account.selected;
+                  return (
+                    <div
+                      key={account.id}
+                      onClick={() => account.connected && toggleAccountSelection(account.id)}
+                      className={`p-3 rounded-xl border transition-all flex items-center justify-between gap-2 cursor-pointer ${
+                        !account.connected
+                          ? 'bg-white border-dashed border-gray-200 opacity-60'
+                          : isSelected
+                          ? 'bg-purple-50/70 border-[#321c65]/30 shadow-xs'
+                          : 'bg-white border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        {/* Platform Icon Badge */}
+                        <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 font-bold text-white shadow-xs">
+                          {account.platform === 'facebook' && (
+                            <div className="w-full h-full rounded-lg bg-[#1877F2] flex items-center justify-center">
+                              <Facebook className="w-4 h-4" />
                             </div>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                toggleAccountConnection(account.id);
-                              }}
-                              className="text-[10px] font-bold text-[#321c65] hover:text-[#b60090] underline"
-                            >
-                              Login
-                            </button>
+                          )}
+                          {account.platform === 'instagram' && (
+                            <div className="w-full h-full rounded-lg bg-gradient-to-tr from-[#FD1D1D] via-[#E1306C] to-[#C13584] flex items-center justify-center">
+                              <Instagram className="w-4 h-4" />
+                            </div>
+                          )}
+                          {account.platform === 'tiktok' && (
+                            <div className="w-full h-full rounded-lg bg-black flex items-center justify-center text-[10px] font-black tracking-tighter">
+                              TT
+                            </div>
+                          )}
+                          {account.platform === 'google' && (
+                            <div className="w-full h-full rounded-lg bg-[#4285F4] flex items-center justify-center">
+                              <Globe className="w-4 h-4" />
+                            </div>
                           )}
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
 
-                {/* 1-Click Publishing Action Buttons */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pt-2">
-                  <span className="text-[11px] text-gray-500 text-center sm:text-left">
-                    {selectedAccountsCount > 0 ? (
+                        <div className="min-w-0">
+                          <p className="font-semibold text-xs text-gray-900 truncate leading-tight">
+                            {account.name}
+                          </p>
+                          <p className="text-[10px] text-gray-500 truncate">
+                            {account.connected ? account.followers : 'Disconnected'}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Status / Checkbox */}
+                      <div>
+                        {account.connected ? (
+                          <div className={`w-5 h-5 rounded-md flex items-center justify-center transition-colors ${
+                            isSelected ? 'bg-[#321c65] text-white' : 'border border-gray-300 bg-white'
+                          }`}>
+                            {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                          </div>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleAccountConnection(account.id);
+                            }}
+                            className="text-[10px] font-bold text-[#321c65] hover:text-[#b60090] underline"
+                          >
+                            Login
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* 1-Click Multi-Channel Action Buttons */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pt-1">
+                <span className="text-[11px] text-gray-500 text-center sm:text-left">
+                  {selectedAccountsCount > 0 ? (
+                    <>
+                      Publishing to <strong className="text-[#321c65]">{selectedAccountsCount}</strong> selected {selectedAccountsCount === 1 ? 'channel' : 'channels'}
+                    </>
+                  ) : (
+                    <span className="text-amber-600 font-medium">No channels selected</span>
+                  )}
+                </span>
+
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handleSchedulePost}
+                    className="ad-btn-white text-xs !py-2.5 !px-4 flex items-center justify-center gap-1.5"
+                  >
+                    <CalendarIcon className="w-3.5 h-3.5 text-[#321c65]" />
+                    <span>Schedule Campaign</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    disabled={publishing || selectedAccountsCount === 0}
+                    onClick={handlePublishNow}
+                    className="ad-btn-magenta text-xs !py-2.5 !px-5 flex items-center justify-center gap-2 disabled:opacity-50"
+                  >
+                    {publishing ? (
+                      <span>Publishing to Channels...</span>
+                    ) : publishSuccess ? (
                       <>
-                        Publishing to <strong className="text-[#321c65]">{selectedAccountsCount}</strong> selected {selectedAccountsCount === 1 ? 'channel' : 'channels'}
+                        <Check className="w-3.5 h-3.5 text-white" />
+                        <span>Published Successfully!</span>
                       </>
                     ) : (
-                      <span className="text-amber-600">No channels selected</span>
+                      <>
+                        <Send className="w-3.5 h-3.5 text-white" />
+                        <span>1-Click Publish Now</span>
+                      </>
                     )}
-                  </span>
-
-                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={handleSchedulePost}
-                      className="ad-btn-white text-xs !py-2.5 !px-4 flex items-center justify-center gap-1.5"
-                    >
-                      <CalendarIcon className="w-3.5 h-3.5 text-[#321c65]" />
-                      <span>Schedule Campaign</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      disabled={publishing || selectedAccountsCount === 0}
-                      onClick={handlePublishNow}
-                      className="ad-btn-magenta text-xs !py-2.5 !px-5 flex items-center justify-center gap-2 disabled:opacity-50"
-                    >
-                      {publishing ? (
-                        <span>Publishing to Channels...</span>
-                      ) : publishSuccess ? (
-                        <>
-                          <Check className="w-3.5 h-3.5 text-white" />
-                          <span>Published Successfully!</span>
-                        </>
-                      ) : (
-                        <>
-                          <Send className="w-3.5 h-3.5 text-white" />
-                          <span>1-Click Publish Now</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
+                  </button>
                 </div>
-
-                {/* Success Banner */}
-                <AnimatePresence>
-                  {publishSuccess && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="mt-3 p-3 bg-green-50 border border-green-200 rounded-xl flex items-center gap-2 text-xs font-semibold text-[#26aa00]"
-                    >
-                      <CheckCircle2 className="w-4 h-4 text-[#26aa00] shrink-0" />
-                      <span>Campaign published to official Pacific Mall social channels with attached media!</span>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
               </div>
-            </motion.div>
-          )}
+
+              {/* Success Banner */}
+              <AnimatePresence>
+                {publishSuccess && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="mt-3 p-3 bg-green-50 border border-green-200 rounded-xl flex items-center gap-2 text-xs font-semibold text-[#26aa00]"
+                  >
+                    <CheckCircle2 className="w-4 h-4 text-[#26aa00] shrink-0" />
+                    <span>Campaign dispatched live to selected official Pacific Mall social channels!</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
         </motion.div>
 
         {/* ============================================================ */}
