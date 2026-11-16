@@ -70,7 +70,7 @@ export default function FirstTimeTourModal() {
               Interactive Walkthrough
             </div>
             <h2 className="text-xl font-bold text-[#1a1429] tracking-tight">
-              Welcome to Pacific <span className="text-[#321c65]">Mall</span>
+              Welcome to Pacific{' '}<span className="text-[#321c65]">Mall</span>
             </h2>
           </div>
         </div>
